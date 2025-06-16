@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 设置视口属性，确保页面在移动设备上正确缩放 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正在加载</title>
+    <!-- 引入全局样式表 -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 错误信息样式 - 仅在重定向失败时显示 */
+        .error-message {
+            display: none; /* 默认隐藏 */
+            background-color: rgba(231, 76, 60, 0.1); /* 浅红色背景 */
+            border: 1px solid #e74c3c; /* 红色边框 */
+            border-radius: var(--border-radius); /* 使用CSS变量中的圆角值 */
+            padding: 15px; /* 内边距 */
+            margin-top: 20px; /* 上边距 */
+            max-width: 500px; /* 最大宽度 */
+            text-align: center; /* 文本居中 */
+        }
+
+        /* 重试按钮样式 */
+        .retry-button {
+            margin-top: 15px; /* 上边距 */
+            padding: 8px 20px; /* 内边距 */
+            background-color: #e74c3c; /* 红色背景 */
+            color: white; /* 白色文字 */
+            border: none; /* 无边框 */
+            border-radius: var(--border-radius); /* 圆角 */
+            cursor: pointer; /* 鼠标指针变为手形 */
+            font-weight: 500; /* 字体粗细 */
+            transition: var(--transition); /* 平滑过渡效果 */
+        }
+
+            /* 重试按钮悬停效果 */
+            .retry-button:hover {
+                background-color: #c0392b; /* 深红色 */
+                transform: translateY(-2px); /* 轻微上移 */
+            }
+    </style>
+</head>
+<body>
+    <!-- 加载容器 - 包含所有加载动画元素 -->
+    <div class="loader-container">
+        <!-- 量子加载动画 -->
+        <div class="quantum-loader">
+            <!-- 5个彩色粒子，每个有不同位置和颜色 -->
+            <div class="quantum-particle"></div>
+            <div class="quantum-particle"></div>
+            <div class="quantum-particle"></div>
+            <div class="quantum-particle"></div>
+            <div class="quantum-particle"></div>
+        </div>
+
+        <!-- 进度条容器 -->
+        <div class="progress-container">
+            <!-- 动态进度条 -->
+            <div class="progress-bar"></div>
+        </div>
+
+        <!-- 加载文本 - 每个字母有独立动画 -->
+        <div class="loading-text">
+            <span>L</span>
+            <span>o</span>
+            <span>a</span>
+            <span>d</span>
+            <span>i</span>
+            <span>n</span>
+            <span>g</span>
+        </div>
+
+        <!-- 错误信息容器 - 默认隐藏 -->
+        <div class="error-message" id="errorMessage">
+            <p>无法完成重定向。可能是网络问题或配置错误。</p>
+            <p>错误代码: <span id="errorCode">未知</span></p>
+            <!-- 重试按钮 -->
+            <button class="retry-button" id="retryButton">重试</button>
+        </div>
+    </div>
+
+    <!-- 引入主JavaScript文件 -->
+    <script src="js/script.js"></script>
+
+    <!-- 内联脚本 - 处理重试功能和错误检测 -->
+    <script>
+        // 当页面完全加载后执行
+        document.addEventListener('DOMContentLoaded', function () {
+            // 获取重试按钮元素
+            const retryButton = document.getElementById('retryButton');
+
+            // 为重试按钮添加点击事件监听器
+            retryButton.addEventListener('click', function () {
+                // 强制刷新页面（绕过缓存）
+                window.location.reload(true);
+            });
+
+            // 设置5秒超时检查，如果页面仍未重定向，则显示错误信息
+            setTimeout(() => {
+                // 检查当前URL是否还是加载页面
+                const isStillOnLoadingPage = window.location.pathname.endsWith('/') ||
+                    window.location.pathname.endsWith('/index.html');
+
+                // 如果仍在加载页面
+                if (isStillOnLoadingPage) {
+                    // 显示错误信息
+                    document.getElementById('errorMessage').style.display = 'block';
+
+                    // 生成随机错误代码（用于诊断）
+                    const errorCode = Math.floor(1000 + Math.random() * 9000);
+                    document.getElementById('errorCode').textContent = `ERR_${errorCode}`;
+
+                    // 在控制台记录错误信息
+                    console.error(`重定向失败: 当前路径 ${window.location.pathname}`);
+                    console.info("可能原因: 1. Cloudflare Worker配置错误 2. 目标页面不存在 3. 网络问题");
+                }
+            }, 5000); // 5秒后执行
+        });
+    </script>
+</body>
+</html>

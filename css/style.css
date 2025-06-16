@@ -1,0 +1,443 @@
+/* ====================== 根变量定义 ====================== */
+:root {
+    --primary-color: #3498db; /* 主色调 - 蓝色 */
+    --secondary-color: #2ecc71; /* 次要色调 - 绿色 */
+    --accent-color: #e74c3c; /* 强调色 - 红色 */
+    --dark-color: #2c3e50; /* 深色 - 深蓝 */
+    --light-color: #ecf0f1; /* 浅色 - 浅灰蓝 */
+    --text-color: #333; /* 主要文本颜色 */
+    --light-text: #777; /* 次要文本颜色 */
+    --border-radius: 8px; /* 圆角半径 */
+    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    --transition: all 0.3s ease; /* 过渡效果 */
+}
+
+/* ====================== 全局重置 ====================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 盒模型设置为 border-box */
+}
+
+/* ====================== 基础样式 ====================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 字体设置 */
+    line-height: 1.6; /* 行高 */
+    color: var(--text-color); /* 文本颜色 */
+    background-color: #f9f9f9; /* 背景颜色 */
+}
+
+.container {
+    width: 90%; /* 容器宽度 */
+    max-width: 1200px; /* 最大宽度 */
+    margin: 0 auto; /* 水平居中 */
+    padding: 0 15px; /* 内边距 */
+}
+
+.highlight {
+    color: var(--primary-color); /* 高亮文本颜色 */
+}
+
+/* ====================== 按钮样式 ====================== */
+.btn {
+    display: inline-block;
+    padding: 12px 28px; /* 内边距 */
+    border-radius: var(--border-radius); /* 圆角 */
+    text-decoration: none; /* 去除下划线 */
+    font-weight: 600; /* 字体粗细 */
+    transition: var(--transition); /* 过渡效果 */
+    cursor: pointer; /* 鼠标指针 */
+    text-align: center; /* 文本居中 */
+}
+
+    /* 主要按钮 */
+    .btn.primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: 2px solid var(--primary-color);
+    }
+
+        .btn.primary:hover {
+            background-color: transparent; /* 悬停时透明背景 */
+            color: var(--primary-color); /* 悬停时文本颜色 */
+            transform: translateY(-3px); /* 上移效果 */
+        }
+
+    /* 次要按钮 */
+    .btn.secondary {
+        background-color: var(--secondary-color);
+        color: white;
+        border: 2px solid var(--secondary-color);
+    }
+
+        .btn.secondary:hover {
+            background-color: transparent;
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+    /* 轮廓按钮 */
+    .btn.outline {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+    }
+
+        .btn.outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+/* ====================== 页面区块样式 ====================== */
+.section {
+    padding: 100px 0; /* 区块上下内边距 */
+}
+
+.section-title {
+    text-align: center; /* 居中 */
+    font-size: 2.5rem; /* 字体大小 */
+    margin-bottom: 3rem; /* 下边距 */
+    color: var(--dark-color); /* 颜色 */
+    position: relative; /* 相对定位 */
+}
+
+    .section-title::after {
+        content: ''; /* 伪元素内容 */
+        position: absolute; /* 绝对定位 */
+        bottom: -15px; /* 位置 */
+        left: 50%; /* 居中 */
+        transform: translateX(-50%); /* X轴居中 */
+        width: 80px; /* 宽度 */
+        height: 4px; /* 高度 */
+        background-color: var(--primary-color); /* 背景色 */
+        border-radius: 2px; /* 圆角 */
+    }
+
+/* ====================== 导航栏样式 ====================== */
+.navbar {
+    background-color: white; /* 背景色 */
+    box-shadow: var(--box-shadow); /* 阴影 */
+    position: sticky; /* 粘性定位 */
+    top: 0; /* 顶部位置 */
+    z-index: 1000; /* 层级 */
+    padding: 15px 0; /* 内边距 */
+}
+
+    .navbar .container {
+        display: flex; /* 弹性布局 */
+        justify-content: space-between; /* 两端对齐 */
+        align-items: center; /* 垂直居中 */
+    }
+
+.logo {
+    font-size: 1.8rem; /* 字体大小 */
+    font-weight: 700; /* 字体粗细 */
+    color: var(--primary-color); /* 颜色 */
+}
+
+nav ul {
+    display: flex; /* 弹性布局 */
+    list-style: none; /* 去除列表样式 */
+}
+
+    nav ul li {
+        margin-left: 30px; /* 左边距 */
+    }
+
+        nav ul li a {
+            text-decoration: none; /* 去除下划线 */
+            color: var(--text-color); /* 颜色 */
+            font-weight: 500; /* 字体粗细 */
+            transition: var(--transition); /* 过渡效果 */
+            position: relative; /* 相对定位 */
+            padding: 5px 0; /* 内边距 */
+        }
+
+            /* 导航链接悬停和激活状态 */
+            nav ul li a:hover,
+            nav ul li a.active {
+                color: var(--primary-color);
+            }
+
+                nav ul li a.active::after {
+                    content: ''; /* 伪元素内容 */
+                    position: absolute; /* 绝对定位 */
+                    bottom: 0; /* 底部位置 */
+                    left: 0; /* 左侧位置 */
+                    width: 100%; /* 宽度 */
+                    height: 3px; /* 高度 */
+                    background-color: var(--primary-color); /* 背景色 */
+                    border-radius: 3px; /* 圆角 */
+                }
+
+/* ====================== 英雄区域样式 ====================== */
+.hero {
+    padding: 100px 0; /* 内边距 */
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* 渐变背景 */
+}
+
+    .hero .container {
+        display: flex; /* 弹性布局 */
+        align-items: center; /* 垂直居中 */
+        justify-content: space-between; /* 两端对齐 */
+        gap: 40px; /* 间距 */
+    }
+
+.hero-content {
+    flex: 1; /* 弹性比例 */
+}
+
+    .hero-content h1 {
+        font-size: 3.2rem; /* 字体大小 */
+        line-height: 1.2; /* 行高 */
+        margin-bottom: 20px; /* 下边距 */
+        color: var(--dark-color); /* 颜色 */
+    }
+
+.subtitle {
+    font-size: 1.4rem; /* 字体大小 */
+    color: var(--light-text); /* 颜色 */
+    margin-bottom: 30px; /* 下边距 */
+}
+
+.cta-buttons {
+    display: flex; /* 弹性布局 */
+    gap: 15px; /* 间距 */
+    margin-top: 30px; /* 上边距 */
+}
+
+.hero-image {
+    flex: 1; /* 弹性比例 */
+    display: flex; /* 弹性布局 */
+    justify-content: center; /* 水平居中 */
+}
+
+.avatar {
+    width: 350px; /* 宽度 */
+    height: 350px; /* 高度 */
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); /* 渐变背景 */
+    border-radius: 50%; /* 圆形 */
+    position: relative; /* 相对定位 */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* 阴影 */
+}
+
+/* ====================== 加载动画样式 ====================== */
+.loader-container {
+    display: flex; /* 弹性布局 */
+    flex-direction: column; /* 垂直方向 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 100vh; /* 视口高度 */
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c); /* 渐变背景 */
+    background-size: 400% 400%; /* 背景大小 */
+    animation: gradientBG 15s ease infinite; /* 动画 */
+}
+
+/* 背景渐变动画 */
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%; /* 起始位置 */
+    }
+
+    50% {
+        background-position: 100% 50%; /* 中间位置 */
+    }
+
+    100% {
+        background-position: 0% 50%; /* 结束位置 */
+    }
+}
+
+.quantum-loader {
+    position: relative; /* 相对定位 */
+    width: 200px; /* 宽度 */
+    height: 200px; /* 高度 */
+    margin-bottom: 40px; /* 下边距 */
+}
+
+.quantum-particle {
+    position: absolute; /* 绝对定位 */
+    width: 30px; /* 宽度 */
+    height: 30px; /* 高度 */
+    background: white; /* 背景色 */
+    border-radius: 50%; /* 圆形 */
+    animation: float 4s ease-in-out infinite; /* 浮动动画 */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); /* 发光效果 */
+}
+
+    /* 粒子位置和颜色 */
+    .quantum-particle:nth-child(1) {
+        top: 0;
+        left: 85px;
+        animation-delay: 0s;
+        background: #ff8c00; /* 橙色 */
+    }
+
+    .quantum-particle:nth-child(2) {
+        top: 35px;
+        left: 160px;
+        animation-delay: -0.5s;
+        background: #00bfff; /* 蓝色 */
+    }
+
+    .quantum-particle:nth-child(3) {
+        top: 120px;
+        left: 170px;
+        animation-delay: -1s;
+        background: #32cd32; /* 绿色 */
+    }
+
+    .quantum-particle:nth-child(4) {
+        top: 170px;
+        left: 85px;
+        animation-delay: -1.5s;
+        background: #ff1493; /* 粉色 */
+    }
+
+    .quantum-particle:nth-child(5) {
+        top: 120px;
+        left: 0;
+        animation-delay: -2s;
+        background: #9370db; /* 紫色 */
+    }
+
+/* 粒子浮动动画 */
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0); /* 起始和结束位置 */
+    }
+
+    25% {
+        transform: translate(10px, -15px); /* 右上方 */
+    }
+
+    50% {
+        transform: translate(-10px, 10px); /* 左下方 */
+    }
+
+    75% {
+        transform: translate(15px, 5px); /* 右下方 */
+    }
+}
+
+/* 进度条容器 */
+.progress-container {
+    width: 100%; /* 宽度 */
+    max-width: 400px; /* 最大宽度 */
+    height: 8px; /* 高度 */
+    background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
+    border-radius: 4px; /* 圆角 */
+    margin: 20px 0; /* 外边距 */
+    overflow: hidden; /* 溢出隐藏 */
+}
+
+/* 进度条 */
+.progress-bar {
+    height: 100%; /* 高度 */
+    width: 0%; /* 初始宽度 */
+    background: linear-gradient(90deg, #ff8c00, #ff0080); /* 渐变背景 */
+    border-radius: 4px; /* 圆角 */
+    transition: width 0.3s ease; /* 宽度过渡效果 */
+}
+
+/* 加载文本 */
+.loading-text {
+    font-size: 2rem; /* 字体大小 */
+    font-weight: bold; /* 字体粗细 */
+    color: white; /* 颜色 */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* 文本阴影 */
+    margin-top: 20px; /* 上边距 */
+}
+
+    .loading-text span {
+        display: inline-block; /* 行内块 */
+        animation: letterPulse 1.5s infinite; /* 字母脉动动画 */
+    }
+
+        /* 字母动画延迟 */
+        .loading-text span:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .loading-text span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-text span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .loading-text span:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .loading-text span:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .loading-text span:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .loading-text span:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+/* 字母脉动动画 */
+@keyframes letterPulse {
+    0%, 100% {
+        transform: translateY(0); /* 正常位置 */
+        opacity: 1; /* 不透明度 */
+    }
+
+    50% {
+        transform: translateY(-15px); /* 上移 */
+        opacity: 0.5; /* 半透明 */
+    }
+}
+
+/* ====================== 响应式设计 ====================== */
+@media (max-width: 992px) {
+    /* 中等屏幕 */
+    .hero .container {
+        flex-direction: column; /* 垂直布局 */
+        text-align: center; /* 文本居中 */
+    }
+
+    .cta-buttons {
+        justify-content: center; /* 按钮居中 */
+    }
+
+    .about-content {
+        flex-direction: column; /* 垂直布局 */
+    }
+
+    .contact-content {
+        flex-direction: column; /* 垂直布局 */
+    }
+}
+
+@media (max-width: 768px) {
+    /* 小屏幕 */
+    nav ul {
+        display: none; /* 隐藏导航 */
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem; /* 减小字体大小 */
+    }
+
+    .section-title {
+        font-size: 2rem; /* 减小字体大小 */
+    }
+
+    .quantum-loader {
+        width: 150px; /* 减小宽度 */
+        height: 150px; /* 减小高度 */
+    }
+
+    .quantum-particle {
+        width: 20px; /* 减小粒子大小 */
+        height: 20px; /* 减小粒子大小 */
+    }
+}
