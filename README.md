@@ -1,3 +1,9 @@
-# MyProfile
-ÎÒÊÇÒ»Ãû³õÑ§Õß£¬ÕâÊÇÒ»¸öÁ·Ï°ÓÃµÄÏîÄ¿£¬Ò²ÊÇÎÒµÄµÚÒ»¸öÏîÄ¿£¬ÄÚÈİÎªÎÒµÄ¸öÈË¼ò½é£¬°üº¬Á½¸öÖ÷ÒªÒ³Ãæ£¬ÍĞ¹ÜÔÚCloudFlareÉÏ£¬¿ÉÒÔÍ¨¹ıIP¼ì²âÕ¹Ê¾²»Í¬Ò³Ãæ¡£
+# **MyProfile**
+
+> A personal profile website
+
+**ä¸­æ–‡**  
+æˆ‘æ˜¯ä¸€ååˆå­¦è€…ï¼Œè¿™æ˜¯ä¸€ä¸ªç»ƒä¹ ç”¨çš„é¡¹ç›®ï¼Œä¹Ÿæ˜¯æˆ‘çš„ç¬¬ä¸€ä¸ªé¡¹ç›®ã€‚å†…å®¹ä¸ºæˆ‘çš„ä¸ªäººç®€ä»‹ï¼ŒåŒ…å«ä¸¤ä¸ªä¸»è¦é¡µé¢ï¼Œæ‰˜ç®¡åœ¨ CloudFlare ä¸Šï¼Œå¯ä»¥é€šè¿‡ IP æ£€æµ‹å±•ç¤ºä¸åŒé¡µé¢ã€‚
+
+**English**  
 I'm a beginner, and this practice project is my first one. It's a personal profile website with two main pages, hosted on CloudFlare. It uses IP detection to display different content.
