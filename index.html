@@ -120,31 +120,26 @@
             });
 
             function redirectToTarget(target) {
-                // 创建文件路径
-                const targetPath = window.location.href.replace(/[^/]*$/, '') + target;
+                redirectAttempted = true;
+
+                const basePath = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
+                const targetPath = basePath + target.replace(/^\//, '');
 
                 try {
-                    console.log(`尝试重定向到: ${targetPath}`);
-
-                    // 使用 iframe 预加载目标页面
                     const preloadFrame = document.createElement('iframe');
                     preloadFrame.style.display = 'none';
-                    preloadFrame.src = targetPath; // 使用完整路径
+                    preloadFrame.src = targetPath;
                     document.body.appendChild(preloadFrame);
 
-                    // 监听预加载完成事件
                     preloadFrame.onload = function () {
-                        console.log(`目标页面预加载完成: ${targetPath}`);
-                        // 实际重定向
+                        redirectSucceeded = true;
                         window.location.replace(targetPath);
                     };
 
                     preloadFrame.onerror = function () {
-                        console.error(`目标页面加载失败: ${targetPath}`);
                         showError();
                     };
                 } catch (e) {
-                    console.error("重定向失败:", e);
                     showError();
                 }
             }

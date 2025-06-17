@@ -7,10 +7,7 @@ async function handleRequest(request) {
     const requestPath = url.pathname;
 
     // 1. 处理静态资源请求（CSS/JS/资源文件等）
-    if (requestPath.startsWith('/assets/') ||
-        requestPath.startsWith('/css/') ||
-        requestPath.startsWith('/js/') ||
-        requestPath.startsWith('/workers-site/')) {
+    if (/\.(css|js|png|jpg|svg)$/.test(requestPath)) {
         return fetch(request);
     }
 
