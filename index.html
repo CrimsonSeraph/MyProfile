@@ -70,6 +70,8 @@
             <span>g</span>
         </div>
 
+        <p class="loading-hint">正在连接到服务，请稍候...</p>
+
         <!-- 错误信息容器 - 默认隐藏 -->
         <div class="error-message" id="errorMessage">
             <p>无法完成重定向。可能是网络问题或配置错误。</p>
@@ -82,39 +84,86 @@
     <!-- 引入主JavaScript文件 -->
     <script src="js/script.js"></script>
 
-    <!-- 内联脚本 - 处理重试功能和错误检测 -->
+    <!-- 重定向 -->
     <script>
-        // 当页面完全加载后执行
         document.addEventListener('DOMContentLoaded', function () {
-            // 获取重试按钮元素
+            // 获取注入的目标页面
+            const targetPage = window.targetPage || '/Global.html';
             const retryButton = document.getElementById('retryButton');
 
-            // 为重试按钮添加点击事件监听器
-            retryButton.addEventListener('click', function () {
-                // 强制刷新页面（绕过缓存）
-                window.location.reload(true);
+            // 控制变量
+            let redirectAttempted = false;
+            let redirectSucceeded = false;
+
+            // 获取进度条元素
+            const progressBar = document.querySelector('.progress-bar');
+
+            // 5秒超时检查（仅用于最终错误处理）
+            const errorTimeout = setTimeout(showError, 5000);
+
+            // 页面可见性变化检测
+            document.addEventListener('visibilitychange', function () {
+                if (document.visibilityState === 'hidden') {
+                    // 页面开始卸载，说明重定向成功
+                    redirectSucceeded = true;
+                    clearTimeout(errorTimeout);
+                }
             });
 
-            // 设置5秒超时检查，如果页面仍未重定向，则显示错误信息
-            setTimeout(() => {
-                // 检查当前URL是否还是加载页面
-                const isStillOnLoadingPage = window.location.pathname.endsWith('/') ||
-                    window.location.pathname.endsWith('/index.html');
+            // 进度条动画结束后触发重定向
+            progressBar.addEventListener('animationend', function () {
+                if (!redirectAttempted) {
+                    redirectToTarget(targetPage);
+                }
+            });
 
-                // 如果仍在加载页面
-                if (isStillOnLoadingPage) {
-                    // 显示错误信息
+            // 重试按钮功能
+            retryButton.addEventListener('click', () => {
+                if (!redirectSucceeded) {
+                    redirectToTarget(targetPage);
+                }
+            });
+
+            function redirectToTarget(target) {
+                // 创建文件路径
+                const targetPath = window.location.href.replace(/[^/]*$/, '') + target;
+
+                try {
+                    console.log(`尝试重定向到: ${targetPath}`);
+
+                    // 使用 iframe 预加载目标页面
+                    const preloadFrame = document.createElement('iframe');
+                    preloadFrame.style.display = 'none';
+                    preloadFrame.src = targetPath; // 使用完整路径
+                    document.body.appendChild(preloadFrame);
+
+                    // 监听预加载完成事件
+                    preloadFrame.onload = function () {
+                        console.log(`目标页面预加载完成: ${targetPath}`);
+                        // 实际重定向
+                        window.location.replace(targetPath);
+                    };
+
+                    preloadFrame.onerror = function () {
+                        console.error(`目标页面加载失败: ${targetPath}`);
+                        showError();
+                    };
+                } catch (e) {
+                    console.error("重定向失败:", e);
+                    showError();
+                }
+            }
+
+            function showError() {
+                if (!redirectSucceeded && !redirectAttempted) {
                     document.getElementById('errorMessage').style.display = 'block';
-
-                    // 生成随机错误代码（用于诊断）
                     const errorCode = Math.floor(1000 + Math.random() * 9000);
                     document.getElementById('errorCode').textContent = `ERR_${errorCode}`;
 
-                    // 在控制台记录错误信息
-                    console.error(`重定向失败: 当前路径 ${window.location.pathname}`);
-                    console.info("可能原因: 1. Cloudflare Worker配置错误 2. 目标页面不存在 3. 网络问题");
+                    // 停止进度条动画
+                    progressBar.style.animation = 'none';
                 }
-            }, 5000); // 5秒后执行
+            }
         });
     </script>
 </body>

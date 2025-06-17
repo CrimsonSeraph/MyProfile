@@ -4,43 +4,39 @@ addEventListener('fetch', event => {
 
 async function handleRequest(request) {
     const url = new URL(request.url);
+    const requestPath = url.pathname;
 
-    // 1. 定义目标国家的页面映射
-    const countryPageMap = {
-        'CN': 'CN.html',      // 中国访问页面
-    };
-
-    // 2. 默认页面
-    const defaultPage = 'Global.html';
-
-    // 3. 获取用户国家代码
-    const country = request.headers.get('cf-ipcountry') || 'XX';
-
-    // 4. 静态资源直接返回
-    if (url.pathname.startsWith('/css/') ||
-        url.pathname.startsWith('/js/')) {
+    // 1. 处理静态资源请求
+    if (requestPath.startsWith('/assets/') ||
+        requestPath.startsWith('/css/') ||
+        requestPath.startsWith('/js/') ||
+        requestPath.startsWith('/workers-site/')) {
         return fetch(request);
     }
 
-    // 5. 处理根路径请求
-    if (url.pathname === '/') {
-        // 确定要重定向的页面
-        const targetPage = countryPageMap[country] || defaultPage;
+    // 2. 处理根路径请求
+    if (requestPath === '/') {
+        const country = request.headers.get('cf-ipcountry') || 'XX';
+        const countryPageMap = {
+            'CN': 'CN.html', 
+        };
 
-        // 添加调试信息到响应头
-        const headers = new Headers({
-            'Location': `/${targetPage}`,
-            'X-Debug-Country': country,
-            'X-Debug-Target-Page': targetPage
-        });
+        const targetPage = countryPageMap[country] || 'Global.html'; 
 
-        // 返回302重定向
-        return new Response(null, {
-            status: 302,
-            headers
+        // 获取加载页面内容
+        const loaderResponse = await fetch('https://your-domain.com/index.html');
+        let htmlContent = await loaderResponse.text();
+
+        // 在第一个<script>标签前注入目标页面变量
+        const injectionCode = `<script>window.targetPage = "${targetPage}";</script>`;
+        htmlContent = htmlContent.replace('<head>', `<head>${injectionCode}`);
+
+        return new Response(htmlContent, {
+            status: 200,
+            headers: { 'Content-Type': 'text/html' }
         });
     }
 
-    // 6. 其他页面请求直接返回
+    // 3. 直接返回其他HTML文件请求
     return fetch(request);
 }
