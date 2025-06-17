@@ -2,50 +2,45 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- 设置视口属性，确保页面在移动设备上正确缩放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>正在加载</title>
-    <!-- 引入全局样式表 -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* 错误信息样式 - 仅在重定向失败时显示 */
         .error-message {
-            display: none; /* 默认隐藏 */
-            background-color: rgba(231, 76, 60, 0.1); /* 浅红色背景 */
-            border: 1px solid #e74c3c; /* 红色边框 */
-            border-radius: var(--border-radius); /* 使用CSS变量中的圆角值 */
-            padding: 15px; /* 内边距 */
-            margin-top: 20px; /* 上边距 */
-            max-width: 500px; /* 最大宽度 */
-            text-align: center; /* 文本居中 */
+            display: none;
+            background-color: rgba(231, 76, 60, 0.1);
+            border: 1px solid #e74c3c;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-top: 20px;
+            max-width: 500px;
+            text-align: center;
         }
 
-        /* 重试按钮样式 */
         .retry-button {
-            margin-top: 15px; /* 上边距 */
-            padding: 8px 20px; /* 内边距 */
-            background-color: #e74c3c; /* 红色背景 */
-            color: white; /* 白色文字 */
-            border: none; /* 无边框 */
-            border-radius: var(--border-radius); /* 圆角 */
-            cursor: pointer; /* 鼠标指针变为手形 */
-            font-weight: 500; /* 字体粗细 */
-            transition: var(--transition); /* 平滑过渡效果 */
+            margin-top: 15px;
+            padding: 8px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
         }
 
-            /* 重试按钮悬停效果 */
             .retry-button:hover {
-                background-color: #c0392b; /* 深红色 */
-                transform: translateY(-2px); /* 轻微上移 */
+                background-color: #c0392b;
+                transform: translateY(-2px);
             }
     </style>
 </head>
 <body>
-    <!-- 加载容器 - 包含所有加载动画元素 -->
+    <!-- 加载容器 -->
     <div class="loader-container">
         <!-- 量子加载动画 -->
         <div class="quantum-loader">
-            <!-- 5个彩色粒子，每个有不同位置和颜色 -->
+            <!-- 5个彩色粒子 -->
             <div class="quantum-particle"></div>
             <div class="quantum-particle"></div>
             <div class="quantum-particle"></div>
@@ -72,7 +67,7 @@
 
         <p class="loading-hint">正在连接到服务，请稍候...</p>
 
-        <!-- 错误信息容器 - 默认隐藏 -->
+        <!-- 错误信息容器 -->
         <div class="error-message" id="errorMessage">
             <p>无法完成重定向。可能是网络问题或配置错误。</p>
             <p>错误代码: <span id="errorCode">未知</span></p>
@@ -81,14 +76,14 @@
         </div>
     </div>
 
-    <!-- 引入主JavaScript文件 -->
+    <!-- 引入JavaScript文件 -->
     <script src="js/script.js"></script>
 
     <!-- 重定向 -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 获取注入的目标页面
-            const targetPage = window.targetPage || '/Global.html';
+            const targetPage = window.targetPage || '/CN.html';
             const retryButton = document.getElementById('retryButton');
 
             // 控制变量
@@ -98,7 +93,7 @@
             // 获取进度条元素
             const progressBar = document.querySelector('.progress-bar');
 
-            // 5秒超时检查（仅用于最终错误处理）
+            // 5秒超时检测
             const errorTimeout = setTimeout(showError, 5000);
 
             // 页面可见性变化检测

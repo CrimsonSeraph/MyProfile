@@ -6,7 +6,7 @@ async function handleRequest(request) {
     const url = new URL(request.url);
     const requestPath = url.pathname;
 
-    // 1. ´¦Àí¾²Ì¬×ÊÔ´ÇëÇó
+    // 1. å¤„ç†é™æ€èµ„æºè¯·æ±‚ï¼ˆCSS/JS/èµ„æºæ–‡ä»¶ç­‰ï¼‰
     if (requestPath.startsWith('/assets/') ||
         requestPath.startsWith('/css/') ||
         requestPath.startsWith('/js/') ||
@@ -14,29 +14,36 @@ async function handleRequest(request) {
         return fetch(request);
     }
 
-    // 2. ´¦Àí¸ùÂ·¾¶ÇëÇó
+    // 2. å¤„ç†æ ¹è·¯å¾„è·¯ç”±
     if (requestPath === '/') {
+        // è·å–è®¿é—®è€…å›½å®¶ä»£ç ï¼ˆé»˜è®¤ä¸ºXXè¡¨ç¤ºæœªçŸ¥ï¼‰
         const country = request.headers.get('cf-ipcountry') || 'XX';
+        
+        // å›½å®¶ä»£ç ä¸é¡µé¢å¯¹åº”å…³ç³»
         const countryPageMap = {
-            'CN': 'CN.html', 
+            'XX': 'CN.html', // æœªçŸ¥å›½å®¶
+            'CN': 'CN.html',  // ä¸­å›½å¤§é™†
         };
 
+        // ç¡®å®šç›®æ ‡é¡µé¢
         const targetPage = countryPageMap[country] || 'Global.html'; 
 
-        // »ñÈ¡¼ÓÔØÒ³ÃæÄÚÈİ
-        const loaderResponse = await fetch('https://your-domain.com/index.html');
+        // è·å–åŸºç¡€HTMLæ¨¡æ¿
+        const loaderResponse = await fetch(new URL('/index.html', request.url));
         let htmlContent = await loaderResponse.text();
 
-        // ÔÚµÚÒ»¸ö<script>±êÇ©Ç°×¢ÈëÄ¿±êÒ³Ãæ±äÁ¿
+        // åœ¨<head>æ ‡ç­¾åæ³¨å…¥ç›®æ ‡é¡µé¢ä¿¡æ¯
         const injectionCode = `<script>window.targetPage = "${targetPage}";</script>`;
         htmlContent = htmlContent.replace('<head>', `<head>${injectionCode}`);
 
+        // è¿”å›HTMLå†…å®¹
         return new Response(htmlContent, {
             status: 200,
             headers: { 'Content-Type': 'text/html' }
         });
     }
 
-    // 3. Ö±½Ó·µ»ØÆäËûHTMLÎÄ¼şÇëÇó
+    // 3. å…¶ä»–æƒ…å†µç›´æ¥è¿”å›åŸå§‹è¯·æ±‚ç»“æœ
     return fetch(request);
+    
 }
