@@ -1,82 +1,142 @@
-﻿// 当页面DOM完全加载后执行
+﻿// ====================== 图片路径设置 ======================
+const IMAGE_PATHS = {
+    // 头像图片
+    avatar: "assets/avatar.png",
+
+    // 背景图片
+    backgrounds: {
+        pc: {
+            day: "../assets/bg-pc-day.png",    /* 电脑白天背景 */
+            night: "../assets/bg-pc-night.png"  /* 电脑夜间背景 */
+        },
+        mobile: {
+            day: "../assets/bg-mobile-day.jpg",   /* 手机白天背景 */
+            night: "../assets/bg-mobile-night.png" /* 手机夜间背景 */
+        }
+    },
+};
+
 document.addEventListener('DOMContentLoaded', function () {
-    // ====================== 平滑滚动功能 ======================
-    // 选择所有以"#"开头的锚点链接
+    // ========== 平滑滚动功能 ==========
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        // 为每个锚点添加点击事件监听器
         anchor.addEventListener('click', function (e) {
-            // 获取链接的href属性值
             const href = this.getAttribute('href');
 
-            // 排除特殊情况：
-            // 1. 只有"#"表示返回页面顶部
-            // 2. 包含".html"的链接（指向其他页面）
-            if (href === '#' || href.includes('.html')) {
-                return; // 不执行后续操作
-            }
+            // 排除特殊情况
+            if (href === '#' || href.includes('.html')) return;
 
-            // 阻止链接默认跳转行为
             e.preventDefault();
+            const target = document.querySelector(href);
 
-            // 获取目标元素（使用href作为选择器）
-            const targetElement = document.querySelector(href);
-
-            // 如果目标元素存在
-            if (targetElement) {
-                // 平滑滚动到目标位置
+            if (target) {
                 window.scrollTo({
-                    // 计算位置：目标元素顶部偏移减去80px（为固定导航栏留空间）
-                    top: targetElement.offsetTop - 80,
-                    // 启用平滑滚动效果
+                    top: target.offsetTop - 80,
                     behavior: 'smooth'
                 });
             }
         });
     });
 
-    // ====================== 加载页进度条动画 ======================
-    // 获取进度条元素
-    const progressBar = document.querySelector('.progress-bar');
+    // ========== 主题管理 ==========
+    const theme = {
+        elements: {
+            toggleBtn: document.getElementById('theme-toggle'),
+            body: document.body
+        },
 
-    // 检查当前是否为加载页（通过进度条是否存在判断）
-    if (progressBar) {
-        let progress = 0; // 初始进度值
+        // 更新CSS背景变量
+        updateBackground: function () {
+            const isDark = this.elements.body.classList.contains('dark-mode');
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-        // 设置定时器，每200毫秒更新一次进度
-        const interval = setInterval(() => {
-            // 随机增加进度值（0-5之间）
-            progress += Math.random() * 5;
+            // 从IMAGE_PATHS选择对应路径
+            const bgPath = isMobile
+                ? (isDark ? IMAGE_PATHS.backgrounds.mobile.night : IMAGE_PATHS.backgrounds.mobile.day)
+                : (isDark ? IMAGE_PATHS.backgrounds.pc.night : IMAGE_PATHS.backgrounds.pc.day);
 
-            // 更新进度条宽度
-            progressBar.style.width = `${progress}%`;
+            // 注入CSS变量
+            document.documentElement.style.setProperty('--bg-image', `url(${bgPath})`);
+        },
 
-            // 检查进度是否达到或超过100%
-            if (progress >= 100) {
-                // 完成进度，确保显示100%
-                progress = 100;
-                // 清除定时器，停止进度更新
-                clearInterval(interval);
+        // 初始化主题
+        init: function () {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-                // 延迟500毫秒（让进度条保持在100%）
-                setTimeout(() => {
-                    // 检查是否仍在加载页
-                    const isStillOnLoadingPage = window.location.pathname.endsWith('/') ||
-                        window.location.pathname.endsWith('/index.html');
-
-                    // 如果仍在加载页
-                    if (isStillOnLoadingPage) {
-                        // 显示错误信息
-                        document.querySelector('.loading-text').innerHTML =
-                            '重定向失败<br><small>正在尝试备用方案</small>';
-
-                        // 延迟2秒后执行重定向
-                        setTimeout(() => {
-                            // 重定向到默认页面
-                            window.location.href = 'global.html';
-                        }, 2000);
-                    }
-                }, 500); // 500毫秒后执行
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                this.elements.body.classList.add('dark-mode');
+                this.elements.toggleBtn.textContent = '切换白天';
             }
-        }, 200); // 每200毫秒执行一次
+
+            this.updateBackground();
+        },
+
+        // 切换主题
+        toggle: function () {
+            this.elements.body.classList.toggle('dark-mode');
+            const isDark = this.elements.body.classList.contains('dark-mode');
+
+            this.elements.toggleBtn.textContent = isDark ? '切换白天' : '切换夜间';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            this.updateBackground();
+        }
+    };
+
+    // ========== 图片预加载 ==========
+    const preloader = {
+        // 获取所有需要预加载的图片路径
+        getAllImagePaths: function () {
+            return [
+                // 所有背景图
+                IMAGE_PATHS.backgrounds.pc.day,
+                IMAGE_PATHS.backgrounds.pc.night,
+                IMAGE_PATHS.backgrounds.mobile.day,
+                IMAGE_PATHS.backgrounds.mobile.night,
+
+                // 头像和其他图片
+                IMAGE_PATHS.avatar,
+            ];
+        },
+
+        // 预加载单张图片（带错误处理）
+        loadImage: function (src) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = src;
+                img.onload = resolve;
+                img.onerror = () => reject(`图片加载失败: ${src}`);
+            });
+        },
+
+        // 批量预加载
+        preloadAll: async function () {
+            const images = this.getAllImagePaths();
+            const loadPromises = images.map(src => this.loadImage(src).catch(console.error));
+
+            try {
+                await Promise.all(loadPromises);
+                console.log('所有图片预加载完成');
+            } catch (error) {
+                console.warn('部分图片加载失败:', error);
+            }
+        }
+    };
+
+    // ========== 动态设置图片元素 ==========
+    function setDynamicImages() {
+        // 设置头像（示例）
+        const avatarImg = document.querySelector('.photo[key="avatar"]');
+        if (avatarImg) {
+            avatarImg.src = IMAGE_PATHS.avatar;
+        }
     }
+
+    // ========== 初始化所有功能 ==========
+    theme.init();                          // 初始化主题
+    setDynamicImages();                    // 设置动态图片
+    preloader.preloadAll();                // 预加载图片
+
+    // 事件监听
+    theme.elements.toggleBtn.addEventListener('click', () => theme.toggle());
+    window.addEventListener('resize', () => theme.updateBackground());
 });

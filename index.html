@@ -4,94 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>正在加载</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .error-message {
-            display: none;
-            background-color: rgba(231, 76, 60, 0.1);
-            border: 1px solid #e74c3c;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            margin-top: 20px;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .retry-button {
-            margin-top: 15px;
-            padding: 8px 20px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-            .retry-button:hover {
-                background-color: #c0392b;
-                transform: translateY(-2px);
-            }
-    </style>
 </head>
 <body>
-    <!-- 加载容器 -->
-    <div class="loader-container">
-        <!-- 量子加载动画 -->
-        <div class="quantum-loader">
-            <!-- 5个彩色粒子 -->
-            <div class="quantum-particle"></div>
-            <div class="quantum-particle"></div>
-            <div class="quantum-particle"></div>
-            <div class="quantum-particle"></div>
-            <div class="quantum-particle"></div>
-        </div>
-
-        <!-- 进度条容器 -->
-        <div class="progress-container">
-            <!-- 动态进度条 -->
-            <div class="progress-bar"></div>
-        </div>
-
-        <!-- 加载文本 - 每个字母有独立动画 -->
-        <div class="loading-text">
-            <span>L</span>
-            <span>o</span>
-            <span>a</span>
-            <span>d</span>
-            <span>i</span>
-            <span>n</span>
-            <span>g</span>
-        </div>
-
-        <p class="loading-hint">正在连接到服务，请稍候...</p>
-
-        <!-- 错误信息容器 -->
-        <div class="error-message" id="errorMessage">
-            <p>无法完成重定向。可能是网络问题或配置错误。</p>
-            <p>错误代码: <span id="errorCode">未知</span></p>
-            <!-- 重试按钮 -->
-            <button class="retry-button" id="retryButton">重试</button>
-        </div>
-    </div>
-
-    <!-- 引入JavaScript文件 -->
-    <script src="js/script.js"></script>
-
     <!-- 重定向 -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 获取注入的目标页面
             const targetPage = window.targetPage || '/CN.html';
-            const retryButton = document.getElementById('retryButton');
 
             // 控制变量
             let redirectAttempted = false;
             let redirectSucceeded = false;
-
-            // 获取进度条元素
-            const progressBar = document.querySelector('.progress-bar');
 
             // 5秒超时检测
             const errorTimeout = setTimeout(showError, 5000);
@@ -105,19 +28,8 @@
                 }
             });
 
-            // 进度条动画结束后触发重定向
-            progressBar.addEventListener('animationend', function () {
-                if (!redirectAttempted) {
-                    redirectToTarget(targetPage);
-                }
-            });
-
-            // 重试按钮功能
-            retryButton.addEventListener('click', () => {
-                if (!redirectSucceeded) {
-                    redirectToTarget(targetPage);
-                }
-            });
+            // 直接重定向
+            redirectToTarget(targetPage);
 
             function redirectToTarget(target) {
                 redirectAttempted = true;
@@ -149,9 +61,6 @@
                     document.getElementById('errorMessage').style.display = 'block';
                     const errorCode = Math.floor(1000 + Math.random() * 9000);
                     document.getElementById('errorCode').textContent = `ERR_${errorCode}`;
-
-                    // 停止进度条动画
-                    progressBar.style.animation = 'none';
                 }
             }
         });
