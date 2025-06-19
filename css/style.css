@@ -16,20 +16,27 @@
 }
 
 /* 切换按钮 */
-#theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 8px 15px;
+.toggle {
     background: var(--button-bg);
     color: var(--text-color);
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    z-index: 100;
     backdrop-filter: blur(5px);
     transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /*统一宽度*/
+    max-width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
+
+    .toggle:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
 
     #theme-toggle:hover {
         transform: scale(1.05);
@@ -74,6 +81,15 @@ body {
         background-position: -200% 0;
     }
 }
+
+/* 自适应按钮组 */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%; /* 继承父级宽度 */
+}
+
 /* ====================== 区块设计 ====================== */
 .profile-container {
     display: grid;
@@ -107,6 +123,11 @@ body {
 
 /*更多信息导航栏*/
 .navigation-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    padding: 20px;
+    z-index: 100;
 }
 
 /*个人介绍区*/
@@ -155,7 +176,6 @@ body {
 /*移动端*/
 @media (max-width: 768px) {
     .profile-container {
-        min-height: auto;
         padding-bottom: 40px; /* 底部留更多空间 */
     }
 
