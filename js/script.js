@@ -82,6 +82,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    // 动态调整高度
+    function adjustHeight() {
+        const container = document.querySelector('.profile-container');
+        if (window.innerWidth > 768) {
+            const headerHeight = document.querySelector('header')?.offsetHeight || 80;
+            const footerHeight = document.querySelector('footer')?.offsetHeight || 60;
+            container.style.minHeight = `calc(100vh - ${headerHeight + footerHeight}px)`;
+        }
+    }
+
+    window.addEventListener('resize', adjustHeight);
+    adjustHeight(); // 初始化
+
     // ========== 图片预加载 ==========
     const preloader = {
         // 获取所有需要预加载的图片路径
