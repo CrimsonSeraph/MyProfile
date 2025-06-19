@@ -1,4 +1,6 @@
-﻿// ====================== 图片路径设置 ======================
+﻿// ====================== 集中式内容配置 ======================
+
+// ====================== 图片路径设置 ======================
 const IMAGE_PATHS = {
     // 头像图片
     avatar: "assets/avatar.png",
@@ -17,6 +19,8 @@ const IMAGE_PATHS = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+    // ========== 内容切换 ==========
+
     // ========== 平滑滚动功能 ==========
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -94,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('resize', adjustHeight);
     adjustHeight(); // 初始化
-
+    document.getElementById('theme-toggle').addEventListener('click', () => theme.toggle());
     // ========== 图片预加载 ==========
     const preloader = {
         // 获取所有需要预加载的图片路径
@@ -148,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
     theme.init();                          // 初始化主题
     setDynamicImages();                    // 设置动态图片
     preloader.preloadAll();                // 预加载图片
+    contentSystem.init();
 
     // 事件监听
     theme.elements.toggleBtn.addEventListener('click', () => theme.toggle());

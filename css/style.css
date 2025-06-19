@@ -10,12 +10,12 @@
 
 /* 夜间模式 */
 .dark-mode {
-    --text-color: #FFD700;
+    --text-color: rgb(255, 250, 0);
     --button-bg: rgba(255,255,255,0.1);
     --normal-color: #f5f5f5;
 }
 
-/* 切换按钮 */
+/* 按钮 */
 .toggle {
     background: var(--button-bg);
     color: var(--text-color);
@@ -31,6 +31,8 @@
     box-sizing: border-box;
     white-space: nowrap;
     text-overflow: ellipsis;
+    line-height: 1.5;
+    padding: 8px 15px;
 }
 
     .toggle:hover {
@@ -88,6 +90,7 @@ body {
     flex-direction: column;
     gap: 10px;
     width: 100%; /* 继承父级宽度 */
+    overflow: hidden;
 }
 
 /* ====================== 区块设计 ====================== */
@@ -100,7 +103,7 @@ body {
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
 }
 
-/*头像区*/
+/* ------ 头像区 ------ */
 .avatar {
     grid-column: 1;
     grid-row: 1;
@@ -108,12 +111,12 @@ body {
     height: 100%;
     aspect-ratio: 1/1;
     background: linear-gradient(45deg, #FF9A9E 0%, #FAD0C4 50%, #A18CD1 100%);
-    border: 5px solid var(--normal-color);
+    border: 5px solid var(--text-color);
     border-radius: 12px;
     overflow: hidden;
 }
 
-/*基础信息区*/
+/* ------ 基础信息区 ------ */
 .info {
     padding: 20px;
     display: flex;
@@ -121,7 +124,7 @@ body {
     justify-content: space-between; /*内容均匀分布*/
 }
 
-/*更多信息导航栏*/
+/* ------ 更多信息导航栏 ------ */
 .navigation-bar {
     width: 100%;
     display: flex;
@@ -130,20 +133,37 @@ body {
     z-index: 100;
 }
 
-/*个人介绍区*/
+/*导航样式*/
+.normal-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.category-btn {
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+    .category-btn.active {
+        background: var(--button-bg-active, rgba(0,0,0,0.2));
+        transform: translateX(5px);
+    }
+
+/* ------ 个人介绍区 ------ */
 .profile {
     padding: 15px;
     border-radius: 5px;
 }
 
-/*其他内容*/
+/* ------ 其他内容 ------ */
 .other {
 }
 
 /*玻璃样式*/
 .glass-panel {
     background: rgba(255, 255, 255, 0.2); /* 半透明白色 */
-    backdrop-filter: blur(10px); /* 背景模糊 */
+    backdrop-filter: blur(1px); /* 背景模糊 */
     border-radius: 12px; /* 圆角 */
     border: 1px solid rgba(255, 255, 255, 0.2); /* 浅色边框 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 多层阴影 */

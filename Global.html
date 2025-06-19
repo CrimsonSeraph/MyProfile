@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,17 +28,22 @@
         <div class="navigation-bar glass-panel">
             <div class="button-group">
                 <button id="theme-toggle" class="toggle">切换夜间</button>
-                <button id="languageSwitch" class="toggle">中文</button>
+
+                <button class="toggle category-btn active" data-target="basic-info">自我介绍</button>
+                <button class="toggle category-btn" data-target="education">社交账号</button>
+                <button class="toggle category-btn" data-target="experience">目前安排</button>
+                <button class="toggle category-btn" data-target="projects">个人项目</button>
             </div>
         </div>
 
         <!-- 个人介绍区 -->
-        <div class="profile glass-panel">
+        <div class="profile glass-panel" id="content-text">
 
-            <h1>test2</h1>
-
+            <div class="content-section active" id="basic-info">
+                <h2>自我介绍</h2>
+            </div>
+            
         </div>
-
     </div>
 
     <!-- 其他内容 -->
