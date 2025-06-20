@@ -1,5 +1,22 @@
-﻿// ====================== 集中式内容配置 ======================
-
+﻿// ====================== 内容配置 ======================
+const CONTENT_DATA = {
+    "PerEval": {
+        title: "自我介绍",
+        content: "这里是自我介绍的内容..."
+    },
+    "SocAcct": {
+        title: "社交账号",
+        content: "这里是社交账号的内容..."
+    },
+    "CtSch": {
+        title: "目前安排",
+        content: "这里是目前安排的内容..."
+    },
+    "projects": {
+        title: "个人项目",
+        content: "这里是个人项目的内容..."
+    }
+};
 // ====================== 图片路径设置 ======================
 const IMAGE_PATHS = {
     // 头像图片
@@ -18,9 +35,129 @@ const IMAGE_PATHS = {
     },
 };
 
+// ========== 主题管理 ==========
+const theme = {
+    elements: null, // 稍后初始化
+
+    // 更新CSS背景变量
+    updateBackground: function () {
+        const isDark = document.body.classList.contains('dark-mode');
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        // 从IMAGE_PATHS选择对应路径
+        const bgPath = isMobile
+            ? (isDark ? IMAGE_PATHS.backgrounds.mobile.night : IMAGE_PATHS.backgrounds.mobile.day)
+            : (isDark ? IMAGE_PATHS.backgrounds.pc.night : IMAGE_PATHS.backgrounds.pc.day);
+
+        // 注入CSS变量
+        document.documentElement.style.setProperty('--bg-image', `url(${bgPath})`);
+    },
+
+    // 初始化主题
+    init: function () {
+        // 初始化元素引用
+        this.elements = {
+            toggleBtn: document.getElementById('theme-toggle'),
+            body: document.body
+        };
+
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            this.elements.body.classList.add('dark-mode');
+            this.elements.toggleBtn.textContent = '切换白天';
+        }
+
+        this.updateBackground();
+
+        // 添加单次事件监听
+        this.elements.toggleBtn.addEventListener('click', () => this.toggle());
+    },
+
+    // 切换主题
+    toggle: function () {
+        this.elements.body.classList.toggle('dark-mode');
+        const isDark = this.elements.body.classList.contains('dark-mode');
+
+        this.elements.toggleBtn.textContent = isDark ? '切换白天' : '切换夜间';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        this.updateBackground();
+    }
+};
+
 document.addEventListener('DOMContentLoaded', function () {
     // ========== 内容切换 ==========
+    const contentSystem = {
+        // 初始化内容系统
+        init: function () {
+            this.elements = {
+                contentText: document.getElementById('content-text'),
+                categoryBtns: document.querySelectorAll('.category-btn')
+            };
 
+            // 添加按钮点击事件
+            this.elements.categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => this.switchContent(btn.dataset.target));
+            });
+
+            // 默认显示自我介绍
+            this.switchContent('PerEval');
+
+            const expandBtn = document.querySelector('.expand-btn');
+            if (expandBtn) {
+                expandBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const menu = e.currentTarget.closest('.expandable-menu');
+                    menu.classList.toggle('expanded');
+                });
+            }
+
+            // 点击子按钮时收起菜单
+            document.querySelectorAll('.sub-buttons .category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.closest('.expandable-menu').classList.remove('expanded');
+                });
+            });
+
+            // 点击外部时收起菜单
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.expandable-menu')) {
+                    document.querySelectorAll('.expandable-menu').forEach(menu => {
+                        menu.classList.remove('expanded');
+                    });
+                }
+            });
+        },
+
+        // 切换内容
+        switchContent: function (targetId) {
+            // 更新按钮状态
+            this.elements.categoryBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.target === targetId);
+            });
+
+            // 更新内容
+            const contentData = CONTENT_DATA[targetId];
+            if (contentData) {
+                // 处理内容中的长文本
+                const processedContent = this.processContent(contentData.content);
+
+                this.elements.contentText.innerHTML = `
+                <h1>${contentData.title}</h1>
+                <div class="content-body">${processedContent}</div>
+            `;
+            }
+        },
+
+        // 处理内容中的长文本
+        processContent: function (content) {
+            // 处理长URL - 添加零宽空格允许换行
+            return content.replace(/(https?:\/\/[^\s]+)/g, (url) => {
+                return url.split('/').join('/&#8203;');
+            });
+        }
+    };
     // ========== 平滑滚动功能 ==========
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -40,51 +177,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-    // ========== 主题管理 ==========
-    const theme = {
-        elements: {
-            toggleBtn: document.getElementById('theme-toggle'),
-            body: document.body
-        },
-
-        // 更新CSS背景变量
-        updateBackground: function () {
-            const isDark = this.elements.body.classList.contains('dark-mode');
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-            // 从IMAGE_PATHS选择对应路径
-            const bgPath = isMobile
-                ? (isDark ? IMAGE_PATHS.backgrounds.mobile.night : IMAGE_PATHS.backgrounds.mobile.day)
-                : (isDark ? IMAGE_PATHS.backgrounds.pc.night : IMAGE_PATHS.backgrounds.pc.day);
-
-            // 注入CSS变量
-            document.documentElement.style.setProperty('--bg-image', `url(${bgPath})`);
-        },
-
-        // 初始化主题
-        init: function () {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                this.elements.body.classList.add('dark-mode');
-                this.elements.toggleBtn.textContent = '切换白天';
-            }
-
-            this.updateBackground();
-        },
-
-        // 切换主题
-        toggle: function () {
-            this.elements.body.classList.toggle('dark-mode');
-            const isDark = this.elements.body.classList.contains('dark-mode');
-
-            this.elements.toggleBtn.textContent = isDark ? '切换白天' : '切换夜间';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            this.updateBackground();
-        }
-    };
 
     // 动态调整高度
     function adjustHeight() {
@@ -152,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
     theme.init();                          // 初始化主题
     setDynamicImages();                    // 设置动态图片
     preloader.preloadAll();                // 预加载图片
-    contentSystem.init();
+    contentSystem.init();          // 初始化内容系统
 
     // 事件监听
     theme.elements.toggleBtn.addEventListener('click', () => theme.toggle());

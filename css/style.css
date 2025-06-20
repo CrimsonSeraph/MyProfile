@@ -99,6 +99,10 @@ body {
     gap: 10px;
     padding: 1%;
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: hidden;
 }
 
 /* ------ 头像区 ------ */
@@ -132,22 +136,62 @@ body {
 }
 
 /*导航样式*/
-.normal-text-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+#content-text {
+    padding: 20px;
+    max-height: 300px; /* 设置最大高度，超出则垂直滚动 */
+    overflow-y: auto;
+    overflow-wrap: break-word; /* 优先在单词内部换行 */
+    word-break: keep-all; /* 中文不随意断行，英文按单词换行 */
+    white-space: pre-line; /* 合并连续空格，但保留换行符 */
+    text-wrap: pretty; /* 尽量保持段落美观 */
 }
 
 .category-btn {
     text-align: left;
     transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+    text-align: center;
 }
 
-    .category-btn.active {
-        background: var(--button-bg-active, rgba(0,0,0,0.2));
-        transform: translateX(5px);
-    }
+/*可展开菜单样式*/
+.expandable-menu {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
 
+.sub-buttons {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.expandable-menu.expanded .sub-buttons {
+    max-height: 300px; /* 足够容纳子按钮的高度 */
+    opacity: 1;
+}
+
+/*按钮文字容器*/
+.expand-btn {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.expand-btn::after {
+    content: " ▼";
+    font-size: 0.8em;
+}
+
+.expandable-menu.expanded .expand-btn::after {
+    content: " ▲";
+}
 /* ------ 个人介绍区 ------ */
 .profile {
     padding: 15px;
@@ -165,6 +209,12 @@ body {
     border-radius: 12px; /* 圆角 */
     border: 1px solid rgba(255, 255, 255, 0.2); /* 浅色边框 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 多层阴影 */
+    width: 100%;
+    box-sizing: border-box; /* 确保内边距不影响总宽度 */
+    overflow-wrap: break-word; /* 强制长单词或URL换行 */
+    word-break: break-word; /* 中文换行 */
+    overflow-y: auto; /* 允许垂直滚动 */
+    overflow-x: hidden; /* 禁止水平滚动 */
 }
 
 /* ====================== 图片样式 ====================== */
@@ -194,11 +244,21 @@ body {
 /*移动端*/
 @media (max-width: 768px) {
     .profile-container {
-        padding-bottom: 40px; /* 底部留更多空间 */
+        padding: 0 15px;
     }
 
     /* 允许页面滚动 */
     body {
         overflow-y: auto;
+    }
+
+    /* 在小屏幕上取消高度限制 */
+    #content-text {
+        max-height: none;
+    }
+
+    .sub-buttons {
+        position: static;
+        width: 100%;
     }
 }
