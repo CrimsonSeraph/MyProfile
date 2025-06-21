@@ -25,12 +25,17 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%; /*统一宽度*/
     max-width: 100%;
-    text-align: center;
     box-sizing: border-box;
     white-space: nowrap;
     text-overflow: ellipsis;
+    overflow: hidden;
     line-height: 1.5;
     padding: 8px 15px;
+    justify-content: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 
     .toggle:hover {
@@ -144,17 +149,6 @@ body {
     word-break: keep-all; /* 中文不随意断行，英文按单词换行 */
     white-space: pre-line; /* 合并连续空格，但保留换行符 */
     text-wrap: pretty; /* 尽量保持段落美观 */
-}
-
-.category-btn {
-    text-align: left;
-    transition: all 0.3s ease;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 15px;
-    text-align: center;
 }
 
 /*可展开菜单样式*/

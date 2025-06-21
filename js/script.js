@@ -1,8 +1,12 @@
 ﻿// ====================== 内容配置 ======================
 const CONTENT_DATA = {
     "PerEval": {
-        title: "自我介绍",
+        title: "自评",
         content: "这里是自我介绍的内容..."
+    },
+    "AI-Eval": {
+        title: "AI评价(GPT)",
+        content: "这里是AI的内容..."
     },
     "SocAcct": {
         title: "社交账号",
@@ -93,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
         init: function () {
             this.elements = {
                 contentText: document.getElementById('content-text'),
-                categoryBtns: document.querySelectorAll('.category-btn')
+                categoryBtns: document.querySelectorAll('.toggle')
             };
 
             // 添加按钮点击事件
@@ -114,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // 点击子按钮时收起菜单
-            document.querySelectorAll('.sub-buttons .category-btn').forEach(btn => {
+            document.querySelectorAll('.sub-buttons .toggle').forEach(btn => {
                 btn.addEventListener('click', () => {
                     btn.closest('.expandable-menu').classList.remove('expanded');
                 });
