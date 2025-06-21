@@ -1,7 +1,5 @@
 /* ====================== 全局定义 ====================== */
 :root {
-    --header-height: 80px;
-    --footer-height: 60px;
     /* 默认白天模式 */
     --text-color: #333;
     --button-bg: rgba(0,0,0,0.1);
@@ -63,6 +61,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
+
     /*图片加载完成后移除*/
     body.loading::before {
         content: '';
@@ -102,10 +101,8 @@ body {
     grid-template-columns: min(25vw, 200px) 1fr;
     grid-template-rows: min(25vw, 200px) 1fr;
     gap: 10px;
-    padding: 1%;
-    min-height: calc(100vh - var(--header-height) - var(--footer-height));
-    width: 100%;
-    max-width: 1200px;
+    height: 90%;
+    width: 90%;
     margin: 0 auto;
     overflow-x: hidden;
 }
@@ -134,8 +131,6 @@ body {
 /* ------ 更多信息导航栏 ------ */
 .navigation-bar {
     width: 100%;
-    display: flex;
-    flex-direction: column; /* 垂直排列 */
     padding: 20px;
     z-index: 100;
 }
@@ -156,21 +151,17 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
+    gap: 0px;
 }
 
-.sub-buttons {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.2s ease;
-    opacity: 0;
-    display: flex;
-    flex-direction: column;
-}
+    .expandable-menu.expanded {
+        gap: 10px;
+    }
 
-.expandable-menu.expanded .sub-buttons {
-    max-height: 300px; /* 足够容纳子按钮的高度 */
-    opacity: 1;
-}
+        .expandable-menu.expanded .sub-buttons {
+            max-height: 300px; /* 足够容纳子按钮的高度 */
+            opacity: 1;
+        }
 
 /*按钮文字容器*/
 .expand-btn {
@@ -178,14 +169,24 @@ body {
     text-align: center;
 }
 
-.expand-btn::after {
-    content: " ▼";
-    font-size: 0.8em;
-}
+    .expand-btn::after {
+        content: " ▼";
+        font-size: 0.8em;
+    }
 
 .expandable-menu.expanded .expand-btn::after {
     content: " ▲";
 }
+.sub-buttons {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 /* ------ 个人介绍区 ------ */
 .profile {
     padding: 15px;
@@ -233,6 +234,10 @@ body {
         height: 100%;
         overflow: hidden;
     }
+
+    .toggle {
+        font-size: clamp(12px, 3vw, 24px);
+    }
 }
 
 /*移动端*/
@@ -254,5 +259,9 @@ body {
     .sub-buttons {
         position: static;
         width: 100%;
+    }
+
+    .toggle {
+        font-size: clamp(6px, 3vw, 12px);
     }
 }
