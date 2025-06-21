@@ -138,7 +138,7 @@ body {
 /*导航样式*/
 #content-text {
     padding: 20px;
-    max-height: 300px; /* 设置最大高度，超出则垂直滚动 */
+    max-height: 100%; /* 设置最大高度，超出则垂直滚动 */
     overflow-y: auto;
     overflow-wrap: break-word; /* 优先在单词内部换行 */
     word-break: keep-all; /* 中文不随意断行，英文按单词换行 */
@@ -195,6 +195,10 @@ body {
 
 /* ------ 其他内容 ------ */
 .other {
+    width: 90%;
+    height: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 /*玻璃样式*/
