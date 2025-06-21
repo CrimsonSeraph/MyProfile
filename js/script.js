@@ -1,6 +1,6 @@
-﻿// ========== 主题管理 ==========
+// ========== 主题管理 ==========
 const theme = {
-    elements: null, // 稍后初始化
+    elements: null, // 初始化
 
     // 更新CSS背景变量
     updateBackground: function () {
