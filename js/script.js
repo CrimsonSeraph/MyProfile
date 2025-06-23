@@ -115,10 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 处理内容中的长文本
         processContent: function (content) {
-            // 处理长URL - 添加零宽空格允许换行
-            return content.replace(/(https?:\/\/[^\s]+)/g, (url) => {
-                return url.split('/').join('/&#8203;');
-            });
+            return content;
         }
     };
     // ========== 平滑滚动功能 ==========
@@ -149,6 +146,19 @@ document.addEventListener('DOMContentLoaded', function () {
             const footerHeight = document.querySelector('footer')?.offsetHeight || 60;
             container.style.minHeight = `calc(100vh - ${headerHeight + footerHeight}px)`;
         }
+    }
+
+    // ========== 图片预加载 & 渐进式替换 ==========
+    function progressiveLoad(imgEl, originalSrc) {
+        const thumbSrc = originalSrc.replace(/(\.\w+)$/, '-thumb$1'); /* —— 缩略图后缀模式 —— */
+        imgEl.classList.add('progressive');
+        imgEl.src = thumbSrc;
+        const fullImg = new Image();
+        fullImg.src = originalSrc;
+        fullImg.onload = () => {
+            imgEl.src = originalSrc;
+            imgEl.classList.add('loaded');
+        };
     }
 
     window.addEventListener('resize', adjustHeight);
@@ -199,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 设置头像（示例）
         const avatarImg = document.querySelector('.photo[key="avatar"]');
         if (avatarImg) {
-            avatarImg.src = IMAGE_PATHS.avatar;
+            progressiveLoad(avatarImg, IMAGE_PATHS.avatar);
         }
     }
 

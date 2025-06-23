@@ -41,9 +41,9 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
-    #theme-toggle:hover {
-        transform: scale(1.05);
-    }
+#theme-toggle:hover {
+    transform: scale(1.05);
+}
 
 * {
     margin: 0;
@@ -177,6 +177,7 @@ body {
 .expandable-menu.expanded .expand-btn::after {
     content: " ▲";
 }
+
 .sub-buttons {
     max-height: 0;
     overflow: hidden;
@@ -225,6 +226,16 @@ body {
     display: block;
 }
 
+/* ====================== 渐进式加载样式 ====================== */
+img.progressive {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+    img.progressive.loaded {
+        opacity: 1;
+    }
+
 /* ====================== 适配 ====================== */
 /*电脑端*/
 @media (min-width: 769px) {
@@ -267,5 +278,10 @@ body {
 
     .toggle {
         font-size: clamp(6px, 3vw, 12px);
+    }
+
+    .avatar, .info, .navigation-bar, .profile {
+        width: 100%;
+        margin-bottom: 10px;
     }
 }
