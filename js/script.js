@@ -154,11 +154,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 点击页面其他地方时，收起非激活项菜单
     document.addEventListener('click', (e) => {
+        // 确保只收起同级菜单
         if (!e.target.closest('.expandable-menu')) {
             document.querySelectorAll('.expandable-menu').forEach(menu => {
-
-                // 只收起不包含任何 active 按钮的菜单
-                if (!menu.querySelector('.toggle.active')) {
+                if (menu.classList.contains('expanded') && !menu.querySelector('.toggle.active')) {
                     menu.classList.remove('expanded');
                 }
             });
