@@ -4,27 +4,52 @@ const CONTENT_DATA = {
         title: "自评",
         content: `
             <h2>自我评价</h2>
-            <p>我是 Leo Yu，17 岁，高中生，性格内向但求真务实。</p>
-            <ul>
-                <li>爱好：游戏开发、哲学思考、3D 动画</li>
-                <li>目标：制作宏大的原创 3D 魔法科技世界观游戏</li>
-            </ul>
         `,
     },
-    "AI-Eval": {
-        title: "AI评价(GPT)",
+
+    "AI-Eval-1": {
+        title: "",
         content: `
-            <h2>AI 对你的评价</h2>
-            <p>你逻辑清晰、思维缜密，自省意识强，但需要注意完美主义导致的行动迟缓。</p>
         `,
     },
+
+    "AI-Eval-2": {
+        title: "",
+        content: `
+        `,
+    },
+
+    "AI-Eval-3": {
+        title: "",
+        content: `
+        `,
+    },
+
+    "AI-Eval-4": {
+        title: "",
+        content: `
+        `,
+    },
+
+    "AI-Eval-5": {
+        title: "",
+        content: `
+        `,
+    },
+
+    "AI-Eval-All": {
+        title: "",
+        content: `
+        `,
+    },
+
     "SocAcct": {
         title: "社交账号",
         content: `
             <h2>社交平台</h2>
-            <p>这里放置你的各类社交账号链接：</p>
         `,
     },
+
     "CtSch": {
         title: "目前安排",
         content: `
@@ -36,6 +61,7 @@ const CONTENT_DATA = {
             </ol>
         `,
     },
+
     "projects": {
         title: "个人项目",
         content: `
@@ -53,7 +79,6 @@ const CONTENT_DATA = {
 const IMAGE_PATHS = {
     // 头像图片
     avatar: "assets/avatar.png",
-    /* —— 修改：全部改成绝对路径 —— */
 
     // 背景图片
     backgrounds: {

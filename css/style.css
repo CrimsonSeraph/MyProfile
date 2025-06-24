@@ -28,7 +28,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     line-height: 1.5;
-    padding: 8px 15px;
+    padding: 0.5% 15px;
     justify-content: center;
     position: relative;
     display: flex;
