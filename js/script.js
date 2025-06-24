@@ -4,20 +4,27 @@ const theme = {
 
     // 更新CSS背景变量
     updateBackground: function () {
-        const isDark = document.body.classList.contains('dark-mode');
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-        // 从IMAGE_PATHS选择对应路径
-        const bgPath = isMobile
-            ? (isDark ? IMAGE_PATHS.backgrounds.mobile.night : IMAGE_PATHS.backgrounds.mobile.day)
-            : (isDark ? IMAGE_PATHS.backgrounds.pc.night : IMAGE_PATHS.backgrounds.pc.day);
+        // 防抖处理（150ms）
+        if (this._updateTimeout) clearTimeout(this._updateTimeout);
 
-        // 注入CSS变量
-        document.documentElement.style.setProperty('--bg-image', `url(${bgPath})`);
+        this._updateTimeout = setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-mode');
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+            // 从IMAGE_PATHS选择对应路径
+            const bgPath = isMobile
+                ? (isDark ? IMAGE_PATHS.backgrounds.mobile.night : IMAGE_PATHS.backgrounds.mobile.day)
+                : (isDark ? IMAGE_PATHS.backgrounds.pc.night : IMAGE_PATHS.backgrounds.pc.day);
+
+            // 注入CSS变量
+            document.documentElement.style.setProperty('--bg-image', `url(${bgPath})`);
+        }, 150);
     },
 
     // 初始化主题
     init: function () {
+
         // 初始化元素引用
         this.elements = {
             toggleBtn: document.getElementById('theme-toggle'),
@@ -49,9 +56,14 @@ const theme = {
     }
 };
 
+window.addEventListener('resize', () => theme.updateBackground());
+
 document.addEventListener('DOMContentLoaded', function () {
+
     // ========== 内容切换 ==========
     const contentSystem = {
+        element: null,
+
         // 初始化内容系统
         init: function () {
             this.elements = {
@@ -61,71 +73,104 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 添加按钮点击事件
             this.elements.categoryBtns.forEach(btn => {
-                btn.addEventListener('click', () => this.switchContent(btn.dataset.target));
-            });
-
-            // 默认显示自我介绍
-            this.switchContent('PerEval');
-
-            const expandBtn = document.querySelector('.expand-btn');
-            if (expandBtn) {
-                expandBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const menu = e.currentTarget.closest('.expandable-menu');
-                    menu.classList.toggle('expanded');
-                });
-            }
-
-            // 点击子按钮时收起菜单
-            document.querySelectorAll('.sub-buttons .toggle').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    btn.closest('.expandable-menu').classList.remove('expanded');
+                    if (btn.dataset.target) {
+                        this.switchContent(btn.dataset.target); // 切换内容
+                    } else {
+                        this.handleFunctionality(btn); // 仅触发功能
+                    }
                 });
             });
 
-            // 点击外部时收起菜单
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.expandable-menu')) {
-                    document.querySelectorAll('.expandable-menu').forEach(menu => {
-                        menu.classList.remove('expanded');
-                    });
-                }
-            });
+            // 默认显示首页
+            this.switchContent('Homepage');
         },
 
-        // 切换内容
         switchContent: function (targetId) {
-            // 更新按钮状态
+
+            // 更新按钮激活状态
             this.elements.categoryBtns.forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.target === targetId);
             });
 
-            // 更新内容
+            // 插入 HTML 内容
             const contentData = CONTENT_DATA[targetId];
             if (contentData) {
-                // 处理内容中的长文本
-                const processedContent = this.processContent(contentData.content);
-
                 this.elements.contentText.innerHTML = `
-                <h1>${contentData.title}</h1>
-                <div class="content-body">${processedContent}</div>
-            `;
+                    <h1>${contentData.title}</h1>
+                    <div class="content-body">${contentData.content}</div>
+                `;
+            } else {
+                this.elements.contentText.innerHTML = `<p>内容不存在。</p>`;
             }
+
+            // 展开父级菜单并锁定当前激活项
+            expandAncestors(targetId);
         },
 
-        // 处理内容中的长文本
-        processContent: function (content) {
-            return content;
+        // 处理功能性按钮
+        handleFunctionality: function (btn) {
+
+            // 如果是切换夜间按钮，直接触发切换功能
+            if (btn.id === 'theme-toggle') {
+                theme.toggle();
+            }
         }
     };
+
+    // 展开并锁定父级菜单
+    function expandAncestors(targetId) {
+
+        // 先收起所有不包含当前激活按钮的菜单
+        document.querySelectorAll('.expandable-menu').forEach(menu => {
+            if (!menu.querySelector(`.toggle[data-target="${targetId}"]`)) {
+                menu.classList.remove('expanded');
+            }
+        });
+
+        // 向上展开所有父级菜单
+        const activeBtn = document.querySelector(`.toggle[data-target="${targetId}"]`);
+        if (activeBtn) {
+            let menu = activeBtn.closest('.expandable-menu');
+            while (menu) {
+                menu.classList.add('expanded');
+                menu = menu.parentElement.closest('.expandable-menu');
+            }
+        }
+    }
+
+    // 点击菜单按钮展开/折叠
+    document.querySelectorAll('.expand-btn').forEach(expandBtn => {
+        expandBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const menu = expandBtn.closest('.expandable-menu');
+
+            // 如果当前菜单中有 active，则不可折叠
+            if (!menu.querySelector('.toggle.active')) {
+                menu.classList.toggle('expanded');
+            }
+        });
+    });
+
+    // 点击页面其他地方时，收起非激活项菜单
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.expandable-menu')) {
+            document.querySelectorAll('.expandable-menu').forEach(menu => {
+
+                // 只收起不包含任何 active 按钮的菜单
+                if (!menu.querySelector('.toggle.active')) {
+                    menu.classList.remove('expanded');
+                }
+            });
+        }
+    });
+
     // ========== 平滑滚动功能 ==========
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-
             // 排除特殊情况
             if (href === '#' || href.includes('.html')) return;
-
             e.preventDefault();
             const target = document.querySelector(href);
 
@@ -161,11 +206,12 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    window.addEventListener('resize', adjustHeight);
     adjustHeight(); // 初始化
     document.getElementById('theme-toggle').addEventListener('click', () => theme.toggle());
+
     // ========== 图片预加载 ==========
     const preloader = {
+
         // 获取所有需要预加载的图片路径
         getAllImagePaths: function () {
             return [
@@ -206,7 +252,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ========== 动态设置图片元素 ==========
     function setDynamicImages() {
-        // 设置头像（示例）
+
+        // 设置头像
         const avatarImg = document.querySelector('.photo[key="avatar"]');
         if (avatarImg) {
             progressiveLoad(avatarImg, IMAGE_PATHS.avatar);
@@ -217,9 +264,5 @@ document.addEventListener('DOMContentLoaded', function () {
     theme.init();                          // 初始化主题
     setDynamicImages();                    // 设置动态图片
     preloader.preloadAll();                // 预加载图片
-    contentSystem.init();          // 初始化内容系统
-
-    // 事件监听
-    theme.elements.toggleBtn.addEventListener('click', () => theme.toggle());
-    window.addEventListener('resize', () => theme.updateBackground());
+    contentSystem.init();                  // 初始化内容系统
 });
