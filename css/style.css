@@ -26,7 +26,6 @@
     box-sizing: border-box;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
     line-height: 1.5;
     padding: 0.5% 1%;
     justify-content: center;
@@ -92,7 +91,7 @@ body {
     flex-direction: column;
     gap: 10px;
     width: 100%; /* 继承父级宽度 */
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* ====================== 区块设计 ====================== */
@@ -133,6 +132,8 @@ body {
     width: 100%;
     padding: 20px;
     z-index: 100;
+    max-height:90vh;
+    overflow-y: auto;
 }
 
 /*导航样式*/
@@ -151,7 +152,6 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0px;
 }
 
     .expandable-menu.expanded {
@@ -178,12 +178,18 @@ body {
     content: " ▲";
 }
 
+.expandable-menu.expanded .sub-buttons {
+    max-height:300px;
+    opacity:1;
+    display:flex；
+}
+
 .sub-buttons {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease, opacity 0.2s ease;
     opacity: 0;
-    display: flex;
+/*    display: none;*/
     flex-direction: column;
     gap: 10px;
 }

@@ -153,13 +153,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // 点击页面其他地方时，收起非激活项菜单
-    document.addEventListener('click', (e) => {
-        // 确保只收起同级菜单
-        if (!e.target.closest('.expandable-menu')) {
-            document.querySelectorAll('.expandable-menu').forEach(menu => {
-                if (menu.classList.contains('expanded') && !menu.querySelector('.toggle.active')) {
-                    menu.classList.remove('expanded');
-                }
+    document.addEventListener('click', function (e) {
+        const isExpandBtn = e.target.classList.contains('expand-btn');
+        const isInsideMenu = e.target.closest('.expandable-menu');
+
+        if (isExpandBtn) {
+            const menu = e.target.closest('.expandable-menu');
+            const isExpanded = menu.classList.contains('expanded');
+
+            // 折叠所有展开的菜单（不包括当前点击的）
+            document.querySelectorAll('.expandable-menu.expanded').forEach(m => {
+                if (m !== menu) m.classList.remove('expanded');
+            });
+
+            // 切换当前菜单
+            if (!isExpanded) {
+                menu.classList.add('expanded');
+            } else {
+                menu.classList.remove('expanded');
+            }
+
+            e.stopPropagation(); // 阻止冒泡防止意外折叠
+        } else if (!isInsideMenu) {
+            // 点击非菜单区域，关闭所有展开的菜单
+            document.querySelectorAll('.expandable-menu.expanded').forEach(m => {
+                m.classList.remove('expanded');
             });
         }
     });
