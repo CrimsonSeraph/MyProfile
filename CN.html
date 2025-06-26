@@ -26,41 +26,37 @@
         <!-- 更多信息导航栏 -->
         <div class="navigation-bar glass-panel">
             <div class="button-group">
+
                 <button id="theme-toggle" class="toggle">切换夜间</button>
 
                 <button class="toggle active" data-target="Homepage">首页</button>
 
-                <div class="expandable-menu">
+                <button class="toggle" data-target="PerEval">自评</button>
 
-                    <button class="toggle expand-btn" data-target="BasInfo">介绍</button>
+                <div class="expandable-menu">
+                    <div class="toggle expand-btn">AI评价(GPT)</div>
+
                     <div class="sub-buttons">
 
-                        <button class="toggle" data-target="PerEval">自评</button>
+                        <button class="toggle" data-target="personality">人格与认识结构</button>
+                        <button class="toggle" data-target="emotion">情绪与内心机制</button>
+                        <button class="toggle" data-target="time">时间与存在感</button>
+                        <button class="toggle" data-target="meaning">意义与目标驱动</button>
+                        <button class="toggle" data-target="behavior">行为习惯与生活状态</button>
+                        <button class="toggle" data-target="relationship">关系观与信任机制</button>
+                        <button class="toggle" data-target="conflict">内在冲突与困境</button>
+                        <button class="toggle" data-target="hope">希望与自我救赎</button>
 
-                        <div class="expandable-menu">
-
-                            <button class="toggle expand-btn" data-target="AI-Eval">AI评</button>
-                            <div class="sub-buttons">
-
-                                <button class="toggle" data-target="AI-Eval-1">一评</button>
-                                <button class="toggle" data-target="AI-Eval-2">二评</button>
-                                <button class="toggle" data-target="AI-Eval-3">三评</button>
-                                <button class="toggle" data-target="AI-Eval-4">四评</button>
-                                <button class="toggle" data-target="AI-Eval-5">五评</button>
-                                <button class="toggle" data-target="AI-Eval-All">总评()</button>
-
-                            </div>
-                        </div>
                     </div>
-
-                    <button class="toggle" data-target="SocAcct">社交账号</button>
-                    <button class="toggle" data-target="CtSch">目前安排</button>
-                    <button class="toggle" data-target="projects">个人项目</button>
-
                 </div>
+
+                <!-- 其他内容项 -->
+                <button class="toggle" data-target="SocAcct">社交账号</button>
+                <button class="toggle" data-target="CtSch">目前安排</button>
+                <button class="toggle" data-target="projects">个人项目</button>
+
             </div>
         </div>
-
 
         <!-- 个人介绍区 -->
         <div class="profile glass-panel" id="content-text">

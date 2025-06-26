@@ -58,129 +58,89 @@ const theme = {
 
 window.addEventListener('resize', () => theme.updateBackground());
 
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
+        // ========== 内容切换 ==========
+        const contentSystem = {
+            // 初始化内容系统
+            init: function () {
+                this.elements = {
+                    contentText: document.getElementById('content-text'),
+                    categoryBtns: document.querySelectorAll('.toggle')
+                };
 
-    // ========== 内容切换 ==========
-    const contentSystem = {
-        element: null,
+                // 添加按钮点击事件
+                this.elements.categoryBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        if (btn.dataset.target) {
+                            this.switchContent(btn.dataset.target); // 切换内容
+                        } else {
+                            this.handleFunctionality(btn); // 仅触发功能
+                        }
+                    });
+                });
 
-        // 初始化内容系统
-        init: function () {
-            this.elements = {
-                contentText: document.getElementById('content-text'),
-                categoryBtns: document.querySelectorAll('.toggle')
-            };
+                // 默认首页
+                this.switchContent('Homepage');
+               
+                const expandBtn = document.querySelector('.expand-btn');
+                if (expandBtn) {
+                    expandBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const menu = e.currentTarget.closest('.expandable-menu');
+                        menu.classList.toggle('expanded');
+                    });
+                }
 
-            // 添加按钮点击事件
-            this.elements.categoryBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (btn.dataset.target) {
-                        this.switchContent(btn.dataset.target); // 切换内容
-                    } else {
-                        this.handleFunctionality(btn); // 仅触发功能
+                // 点击子按钮时收起菜单
+                document.querySelectorAll('.sub-buttons .toggle').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        btn.closest('.expandable-menu').classList.remove('expanded');
+                    });
+                });
+
+                // 点击外部时收起菜单
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.expandable-menu')) {
+                        document.querySelectorAll('.expandable-menu').forEach(menu => {
+                            menu.classList.remove('expanded');
+                        });
                     }
                 });
-            });
+            },
 
-            // 默认显示首页
-            this.switchContent('Homepage');
-        },
+            switchContent: function (targetId) {
 
-        switchContent: function (targetId) {
+                // 更新按钮激活状态
+                this.elements.categoryBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.target === targetId);
+                });
 
-            // 更新按钮激活状态
-            this.elements.categoryBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.target === targetId);
-            });
-
-            // 插入 HTML 内容
-            const contentData = CONTENT_DATA[targetId];
-            if (contentData) {
-                this.elements.contentText.innerHTML = `
+                // 插入 HTML 内容
+                const contentData = CONTENT_DATA[targetId];
+                if (contentData) {
+                    this.elements.contentText.innerHTML = `
                     <h1>${contentData.title}</h1>
                     <div class="content-body">${contentData.content}</div>
                 `;
-            } else {
-                this.elements.contentText.innerHTML = `<p>内容不存在。</p>`;
-            }
+                } else {
+                    this.elements.contentText.innerHTML = `<p>内容不存在。</p>`;
+                }
+            },
 
-            // 展开父级菜单并锁定当前激活项
-            expandAncestors(targetId);
-        },
+            // 处理内容中的长文本
+            processContent: function (content) {
+                return content;
+            },
 
         // 处理功能性按钮
         handleFunctionality: function (btn) {
 
-            // 如果是切换夜间按钮，直接触发切换功能
-            if (btn.id === 'theme-toggle') {
-                theme.toggle();
+                // 如果是切换夜间按钮，直接触发切换功能
+                if (btn.id === 'theme-toggle') {
+                    theme.toggle();
+                }
             }
-        }
-    };
-
-    // 展开并锁定父级菜单
-    function expandAncestors(targetId) {
-
-        // 先收起所有不包含当前激活按钮的菜单
-        document.querySelectorAll('.expandable-menu').forEach(menu => {
-            if (!menu.querySelector(`.toggle[data-target="${targetId}"]`)) {
-                menu.classList.remove('expanded');
-            }
-        });
-
-        // 向上展开所有父级菜单
-        const activeBtn = document.querySelector(`.toggle[data-target="${targetId}"]`);
-        if (activeBtn) {
-            let menu = activeBtn.closest('.expandable-menu');
-            while (menu) {
-                menu.classList.add('expanded');
-                menu = menu.parentElement.closest('.expandable-menu');
-            }
-        }
-    }
-
-    // 点击菜单按钮展开/折叠
-    document.querySelectorAll('.expand-btn').forEach(expandBtn => {
-        expandBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const menu = expandBtn.closest('.expandable-menu');
-
-            // 如果当前菜单中有 active，则不可折叠
-            if (!menu.querySelector('.toggle.active')) {
-                menu.classList.toggle('expanded');
-            }
-        });
-    });
-
-    // 点击页面其他地方时，收起非激活项菜单
-    document.addEventListener('click', function (e) {
-        const isExpandBtn = e.target.classList.contains('expand-btn');
-        const isInsideMenu = e.target.closest('.expandable-menu');
-
-        if (isExpandBtn) {
-            const menu = e.target.closest('.expandable-menu');
-            const isExpanded = menu.classList.contains('expanded');
-
-            // 折叠所有展开的菜单（不包括当前点击的）
-            document.querySelectorAll('.expandable-menu.expanded').forEach(m => {
-                if (m !== menu) m.classList.remove('expanded');
-            });
-
-            // 切换当前菜单
-            if (!isExpanded) {
-                menu.classList.add('expanded');
-            } else {
-                menu.classList.remove('expanded');
-            }
-
-            e.stopPropagation(); // 阻止冒泡防止意外折叠
-        } else if (!isInsideMenu) {
-            // 点击非菜单区域，关闭所有展开的菜单
-            document.querySelectorAll('.expandable-menu.expanded').forEach(m => {
-                m.classList.remove('expanded');
-            });
-        }
-    });
+        };
 
     // ========== 平滑滚动功能 ==========
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
