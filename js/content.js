@@ -141,17 +141,33 @@ const CONTENT_DATA = {
 // ====================== 图片路径设置 ======================
 const IMAGE_PATHS = {
     // 头像图片
-    avatar: "assets/avatar.png",
+    avatar: {
+        full: "../assets/avatar.png",
+        thumb: "../assets/avatar-thumb.png",
+    },
 
     // 背景图片
     backgrounds: {
         pc: {
-            day: "../assets/bg-pc-day.png",    /* 电脑白天背景 */
-            night: "../assets/bg-pc-night.png"  /* 电脑夜间背景 */
+            day: {
+                full: "../assets/bg-pc-day.png",    /* 电脑白天背景 */
+                thumb: "../assets/bg-pc-day-thumb.png",
+            },
+            night: {
+                full: "../assets/bg-pc-night.png",  /* 电脑夜间背景 */
+                thumb: "../assets/bg-pc-night-thumb.png",
+            }
         },
+
         mobile: {
-            day: "../assets/bg-mobile-day.jpg",   /* 手机白天背景 */
-            night: "../assets/bg-mobile-night.png" /* 手机夜间背景 */
+            day: {
+                full: "../assets/bg-mobile-day.jpg",   /* 手机白天背景 */
+                thumb: "../assets/bg-mobile-day-thumb.jpg",
+            },
+            night: {
+                full: "../assets/bg-mobile-night.png", /* 手机夜间背景 */
+                thumb: "../assets/bg-mobile-night-thumb.png",
+            }
         }
     },
 };
