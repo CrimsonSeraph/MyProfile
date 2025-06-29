@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const contentData = CONTENT_DATA[targetId];
             if (contentData) {
                 this.elements.contentText.innerHTML = `
-                    <h1>${contentData.title}</h1>
+                    <h1 class="neon-effect">${contentData.title}</h1>
                     <div class="content-body">${contentData.content}</div>
                 `;
             } else {
