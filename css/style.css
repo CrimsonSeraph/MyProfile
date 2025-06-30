@@ -25,26 +25,21 @@ html {
 }
 
 body {
-    background-image: var(--bg-preview);
-    background-size: cover;
     background-position: center;
     color: var(--text-color);
-    transition: background-image 0.5s ease, color 0.3s ease;
     min-height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
     overflow: hidden;
+    background-image: var(--bg-preview), var(--bg-full);
+    background-size: cover;
+    transition: opacity 0.5s ease;
+    position: relative;
 }
     body.bg-loaded {
         /* 加载完成后使用高清图 */
         background-image: var(--bg-full);
     }
-
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
-
 
 /* 基础设置 */
 html {
@@ -73,18 +68,20 @@ p {
 }
 
 /*图片加载完成后移除*/
-body.loading::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, #f5f5f5 25%, #eee 50%, #f5f5f5 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-    z-index: -1;
+body:not(.bg-loaded) {
+    position: relative;
 }
+
+    body:not(.bg-loaded)::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.02);
+        z-index: -1;
+    }
 
 @keyframes loading {
     0% {
@@ -273,7 +270,7 @@ body.loading::before {
 
 /*霓虹样式*/
 .neon-effect {
-    color: #ffc0cb;
+    color: var(--text-color);
     text-shadow: 0 0 5px #ffb6c1, 0 0 10px #ffb6c1, 0 0 20px #00fffc;
     animation: neon-pulse 1.5s infinite alternate;
 }
@@ -287,7 +284,7 @@ body.loading::before {
     display: block;
 }
 
-/* ====================== 渐进式加载样式 ====================== */
+/*背景图*/
 img.progressive {
     opacity: 0;
     transition: opacity 0.6s ease;
@@ -296,6 +293,35 @@ img.progressive {
     img.progressive.loaded {
         opacity: 1;
     }
+
+.background-container {
+    position: relative;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.5s ease;
+}
+
+.thumb {
+    opacity: 1;
+}
+
+.full {
+    opacity: 0;
+}
+
+.loaded .thumb {
+    opacity: 0;
+}
+
+.loaded .full {
+    opacity: 1;
+}
 
 /* ====================== 适配 ====================== */
 /*电脑端*/
@@ -315,24 +341,107 @@ img.progressive {
 
 /*移动端*/
 @media (max-width: 768px) {
+    /* 改为垂直单列布局 */
     .profile-container {
-        padding: 0 15px;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        width: 95%;
+        height: auto;
+        min-height: 100vh;
+        padding: 10px 0;
+        gap: 15px;
     }
 
-    .sub-buttons {
-        position: static;
-        width: 100%;
+    .avatar {
+        grid-column: 1;
+        grid-row: 1;
+        width: 40vw;
+        height: 40vw;
+        max-width: 150px;
+        max-height: 150px;
+        margin: 0 auto;
+        border-width: 3px; /* 减小边框厚度 */
     }
 
+    .info {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 10px;
+    }
+
+    .navigation-bar {
+        grid-column: 1;
+        grid-row: 3;
+        padding: 0 10px;
+        max-height: none;
+    }
+
+    /* 字体优化 */
+    html {
+        font-size: calc(0.85rem + 0.5vw);
+    }
+
+    h1 {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+        text-align: center;
+    }
+
+    h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    p {
+        font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+        line-height: 1.6;
+    }
+
+    /* 按钮优化 */
     .toggle {
-        font-size: clamp(6px, 3vw, 12px);
+        padding: 12px 15px;
+        font-size: clamp(14px, 4vw, 16px);
+        min-height: 44px;
     }
+
         .toggle.mini {
-            font-size: clamp(6px, 1.5vw, 12px);
+            padding: 8px 10px;
+            border-radius: 8px;
         }
 
-    .avatar, .info, .navigation-bar, .profile {
+    /* 导航菜单优化 */
+    .button-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .expandable-menu {
         width: 100%;
-        margin-bottom: 10px;
+    }
+
+    /* 内容区域优化 */
+    #content-text {
+        padding: 15px;
+        max-height: 50vh; /* 限制高度并启用滚动 */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* iOS平滑滚动 */
+    }
+
+    /* 移除不必要的特效 */
+    .toggle:hover {
+        transform: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 底部安全区域适配 */
+    body {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .other {
+        position: fixed;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+        left: 5%;
+        width: 90%;
+        height: auto;
+        z-index: 100;
     }
 }

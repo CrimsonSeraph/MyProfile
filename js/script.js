@@ -20,11 +20,13 @@ const theme = {
                 : (isDark ? IMAGE_PATHS.backgrounds.pc.night.full : IMAGE_PATHS.backgrounds.pc.day.full);
 
             // 移除旧的高清图
-            document.documentElement.style.setProperty('--bg-preview', 'none');
             document.documentElement.style.setProperty('--bg-full', 'none');
 
             // 设置预览图
-            document.documentElement.style.setProperty('--bg-preview', `url(${previewPath})`);
+            const newPreview = `url(${previewPath})`;
+            if (document.documentElement.style.getPropertyValue('--bg-preview') !== newPreview) {
+                document.documentElement.style.setProperty('--bg-preview', newPreview);
+            }
 
             // 清除旧的高清图加载器
             if (this._highResImg) {
@@ -94,7 +96,7 @@ const theme = {
 
 window.addEventListener('resize', () => theme.updateBackground());
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     // ========== 内容切换 ==========
     const contentSystem = {
         // 初始化内容系统
@@ -267,11 +269,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 预加载单张图片
         loadImage: function (src) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const img = new Image();
+                // 缩略图优先加载
+                if (src.includes('thumb')) img.fetchPriority = 'high';
                 img.src = src;
                 img.onload = resolve;
-                img.onerror = () => reject(`图片加载失败: ${src}`);
             });
         },
 
@@ -312,8 +315,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ========== 初始化所有功能 ==========
-    theme.init();                          // 初始化主题
-    setDynamicImages();                    // 设置动态图片
-    preloader.preloadAll();                // 预加载图片
-    contentSystem.init();                  // 初始化内容系统
+    await preloader.preloadAll();    // 等待预加载完成
+    setDynamicImages();              // 设置头像
+    theme.init();                    // 初始化主题（包含背景）
+    contentSystem.init();            // 内容系统
+
+    // 添加加载完成标记
+    document.body.classList.add('resources-loaded');
 });
