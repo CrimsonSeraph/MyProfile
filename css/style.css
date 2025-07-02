@@ -36,6 +36,7 @@ body {
     transition: opacity 0.5s ease;
     position: relative;
 }
+
     body.bg-loaded {
         /* 加载完成后使用高清图 */
         background-image: var(--bg-full);
@@ -131,13 +132,41 @@ body:not(.bg-loaded) {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
-    .toggle.mini {
-        border-radius: 6px;
-        border: 1px solid var(--text-color);
+    .toggle-mini {
+        border-radius: 30px;
+        background: var(--button-bg);
+        color: var(--text-color);
+        border: none;
+        cursor: pointer;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%; /*统一宽度*/
+        max-width: 100%;
+        box-sizing: border-box;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        line-height: 1.5;
+        padding: 5% 1%;
+        justify-content: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        text-align: center;
     }
 
 #theme-toggle:hover {
     transform: scale(1.05);
+}
+
+.ellipsis {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* 限制显示的行数 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    max-height: 2.8em; /* 行高 × 行数 */
 }
 
 /* ====================== 区块设计 ====================== */
@@ -177,7 +206,7 @@ body:not(.bg-loaded) {
 /* ------ 更多信息导航栏 ------ */
 .navigation-bar {
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     z-index: 100;
     max-height: 90vh;
     overflow-y: auto;
@@ -191,7 +220,7 @@ body:not(.bg-loaded) {
     overflow-wrap: break-word; /* 优先在单词内部换行 */
     word-break: keep-all; /* 中文不随意断行，英文按单词换行 */
     white-space: pre-line; /* 合并连续空格，但保留换行符 */
-    text-wrap: pretty; /* 尽量保持段落美观 */
+    text-wrap: pretty;
 }
 
 /*可展开菜单样式*/
@@ -236,7 +265,6 @@ body:not(.bg-loaded) {
     overflow: hidden;
     transition: max-height 0.3s ease, opacity 0.2s ease;
     opacity: 0;
-    /*    display: none;*/
     flex-direction: column;
     gap: 10px;
 }
@@ -335,7 +363,7 @@ img.progressive {
     }
 
         .toggle.mini {
-            font-size: clamp(12px, 1.5vw, 18px);
+            font-size: clamp(12px, 2vw, 18px);
         }
 }
 
@@ -361,18 +389,18 @@ img.progressive {
         padding: 5px;
     }
 
-        .navigation-bar.expanded {
-            width: 150px;
+    .navigation-bar.expanded {
+        width: 150px;
+    }
+
+        .navigation-bar.expanded .toggle {
+            font-size: 14px;
+            padding: 10px;
         }
 
-            .navigation-bar.expanded .toggle {
-                font-size: 14px;
-                padding: 10px;
+            .navigation-bar.expanded .toggle::before {
+                display: none;
             }
-
-                .navigation-bar.expanded .toggle::before {
-                    display: none;
-                }
 
     .profile {
         height: 100%;
@@ -382,7 +410,16 @@ img.progressive {
         border-radius: 10px;
     }
 
-    .toggle:hover {
-        transform: none;
+
+    .toggle {
+        font-size: clamp(12px, 3vw, 24px);
     }
+
+        .toggle.mini {
+            font-size: clamp(12px, 2vw, 18px);
+        }
+
+        .toggle:hover {
+            transform: none;
+        }
 }
