@@ -1,64 +1,82 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>正在加载</title>
+    <!-- 文档元数据 -->
+    <meta charset="UTF-8"> <!-- 设置字符编码为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 响应式视口设置 -->
+    <title>正在加载</title> <!-- 页面标题 -->
 </head>
 <body>
-    <!-- 重定向 -->
+
+    <div id="errorMessage" style="display:none">
+        重定向失败！错误码：<span id="errorCode"></span>
+    </div>
+
+    <!-- 重定向逻辑脚本 -->
     <script>
+        // 当DOM内容加载完成后执行
         document.addEventListener('DOMContentLoaded', function () {
-            // 获取注入的目标页面
+            // 从全局变量获取目标页面路径，默认为'/CN.html'
             const targetPage = window.targetPage || '/CN.html';
 
-            // 控制变量
-            let redirectAttempted = false;
-            let redirectSucceeded = false;
+            // 重定向状态控制变量
+            let redirectAttempted = false;  // 是否已尝试重定向
+            let redirectSucceeded = false;   // 重定向是否成功
 
-            // 5秒超时检测
+            // 设置5秒超时计时器，超时则显示错误
             const errorTimeout = setTimeout(showError, 5000);
 
-            // 页面可见性变化检测
+            // 监听页面可见性变化
             document.addEventListener('visibilitychange', function () {
+                // 当页面变为隐藏状态（说明开始卸载）
                 if (document.visibilityState === 'hidden') {
-                    // 页面开始卸载，说明重定向成功
-                    redirectSucceeded = true;
-                    clearTimeout(errorTimeout);
+                    redirectSucceeded = true;    // 标记重定向成功
+                    clearTimeout(errorTimeout); // 清除超时错误检测
                 }
             });
 
-            // 直接重定向
+            // 执行重定向操作
             redirectToTarget(targetPage);
 
+            /* 重定向核心函数 */
             function redirectToTarget(target) {
-                redirectAttempted = true;
+                redirectAttempted = true;  // 标记已尝试重定向
 
+                // 构建基础路径：当前域名 + 当前路径的目录部分
                 const basePath = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
+                // 构建完整目标路径：基础路径 + 目标页面（移除开头的斜杠）
                 const targetPath = basePath + target.replace(/^\//, '');
 
                 try {
+                    // 创建隐藏iframe实现预加载
                     const preloadFrame = document.createElement('iframe');
-                    preloadFrame.style.display = 'none';
-                    preloadFrame.src = targetPath;
-                    document.body.appendChild(preloadFrame);
+                    preloadFrame.style.display = 'none';  // 隐藏iframe
+                    preloadFrame.src = targetPath;        // 设置目标URL
+                    document.body.appendChild(preloadFrame); // 添加到DOM
 
+                    // iframe加载成功回调
                     preloadFrame.onload = function () {
-                        redirectSucceeded = true;
-                        window.location.replace(targetPath);
+                        redirectSucceeded = true;          // 标记成功
+                        window.location.replace(targetPath); // 正式重定向（不保留历史记录）
                     };
 
+                    // iframe加载失败回调
                     preloadFrame.onerror = function () {
-                        showError();
+                        showError();  // 显示错误信息
                     };
                 } catch (e) {
+                    // 捕获创建iframe时的异常
                     showError();
                 }
             }
 
+            /* 错误处理函数 */
             function showError() {
+                // 仅在重定向未成功且未尝试过时显示错误
                 if (!redirectSucceeded && !redirectAttempted) {
+                    // 显示错误信息元素（实际HTML中需存在对应元素）
                     document.getElementById('errorMessage').style.display = 'block';
+                    // 生成4位随机错误码 (1000-9999)
                     const errorCode = Math.floor(1000 + Math.random() * 9000);
                     document.getElementById('errorCode').textContent = `ERR_${errorCode}`;
                 }

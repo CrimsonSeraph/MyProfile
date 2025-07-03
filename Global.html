@@ -1,55 +1,60 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrimsonSeraph</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- 文档元数据 -->
+    <meta charset="UTF-8"> <!-- 设置字符编码为UTF-8，支持中文 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 响应式设计，适配移动设备 -->
+    <title>CrimsonSeraph</title> <!-- 页面标题 -->
+    <link rel="stylesheet" href="css/style.css"> <!-- 外部样式表链接 -->
 </head>
 <body>
 
-    <!-- 主要内容 -->
+    <!-- 主内容容器 -->
     <div class="profile-container">
 
-        <!-- 头像区 -->
+        <!-- 头像区域 -->
         <div class="avatar">
+            <!-- 头像图片 - 使用key属性标识，alt属性提供加载失败时的替代文本 -->
             <img class="photo" key="avatar" alt="图片加载失败">
         </div>
 
-        <!-- 基础信息区 -->
+        <!-- 基础信息区域 - 应用毛玻璃效果 -->
         <div class="info glass-panel">
-
-            <h1>test1</h1>
-
+            <h1>test1</h1> <!-- 标题占位符 -->
         </div>
 
-        <!-- 更多信息导航栏 -->
+        <!-- 导航栏区域 - 应用毛玻璃效果 -->
         <div class="navigation-bar glass-panel">
             <div class="button-group">
-
+                <!-- 按钮容器 -->
+                <!-- 主题切换按钮 -->
                 <button id="theme-toggle" class="toggle">切换夜间</button>
 
+                <!-- 首页按钮 - 初始为激活状态 -->
                 <button class="toggle active" data-target="Homepage">首页</button>
 
+                <!-- 自我评价按钮 -->
                 <button class="toggle" data-target="PerEval">自评</button>
 
+                <!-- 可展开的AI评价菜单 -->
                 <div class="expandable-menu">
+                    <!-- 主展开按钮 -->
                     <div class="toggle expand-btn">AI评价</div>
 
+                    <!-- 子按钮容器 -->
                     <div class="sub-buttons">
-
-                        <button class="toggle-mini ellipsis" data-target="personality">人格与认识结构</button>
-                        <button class="toggle-mini ellipsis" data-target="emotion">情绪与内心机制</button>
-                        <button class="toggle-mini ellipsis" data-target="meaning">意义与目标驱动</button>
-                        <button class="toggle-mini ellipsis" data-target="behavior">行为习惯与生活状态</button>
-                        <button class="toggle-mini ellipsis" data-target="relationship">关系观与信任机制</button>
-                        <button class="toggle-mini ellipsis" data-target="conflict">内在冲突与困境</button>
-                        <button class="toggle-mini ellipsis" data-target="hope">希望与自我救赎</button>
-
+                        <!-- 各个AI评价分类按钮 -->
+                        <button class="toggle mini ellipsis" data-target="personality">人格与认识结构</button>
+                        <button class="toggle mini ellipsis" data-target="emotion">情绪与内心机制</button>
+                        <button class="toggle mini ellipsis" data-target="meaning">意义与目标驱动</button>
+                        <button class="toggle mini ellipsis" data-target="behavior">行为习惯与生活状态</button>
+                        <button class="toggle mini ellipsis" data-target="relationship">关系观与信任机制</button>
+                        <button class="toggle mini ellipsis" data-target="conflict">内在冲突与困境</button>
+                        <button class="toggle mini ellipsis" data-target="hope">希望与自我救赎</button>
                     </div>
                 </div>
 
-                <!-- 其他内容项 -->
+                <!-- 其他导航按钮 -->
                 <button class="toggle" data-target="SocAcct">社交账号</button>
                 <button class="toggle" data-target="CtSch">目前安排</button>
                 <button class="toggle" data-target="projects">个人项目</button>
@@ -57,19 +62,19 @@
             </div>
         </div>
 
-        <!-- 个人介绍区 -->
+        <!-- 个人介绍内容区域 - 应用毛玻璃效果 -->
         <div class="profile glass-panel" id="content-text">
+            <!-- 动态内容将在此处加载 -->
         </div>
     </div>
 
-    <!-- 其他内容 -->
+    <!-- 其他内容区域 -->
     <div class="other">
-
-        <h1>test3</h1>
-
+        <h1>test3</h1> <!-- 占位内容 -->
     </div>
 
-    <script src="js/script.js"></script>
-    <script src="js/content.js"></script>
+    <!-- 外部JavaScript文件 -->
+    <script src="js/script.js"></script> <!-- 主功能脚本 -->
+    <script src="js/content.js"></script> <!-- 内容加载脚本 -->
 </body>
 </html>

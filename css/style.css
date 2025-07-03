@@ -1,55 +1,57 @@
 /* ====================== 全局定义 ====================== */
 :root {
-    /* 默认白天模式 */
-    --text-color: #333;
-    --button-bg: rgba(0,0,0,0.1);
-    --bg-preview: var(--bg-image-thumb);
-    --bg-full: var(--bg-image-full);
+    /* 默认白天模式变量 */
+    --text-color: #333; /* 主要文字颜色 */
+    --button-bg: rgba(0,0,0,0.1); /* 按钮背景色 */
+    --bg-preview: var(--bg-image-thumb); /* 背景预览图 */
+    --bg-full: var(--bg-image-full); /* 高清背景图 */
 }
 
-/* 夜间模式 */
+/* 夜间模式覆盖变量 */
 .dark-mode {
-    --text-color: rgb(255, 250, 0);
-    --button-bg: rgba(255,255,255,0.1);
+    --text-color: rgb(255, 250, 0); /* 夜间模式文字颜色（黄色） */
+    --button-bg: rgba(255,255,255,0.1); /* 夜间模式按钮背景 */
 }
 
+/* 通用重置 */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* 包含内边距和边框在元素尺寸内 */
 }
 
 /* 基础设置 */
 html {
-    font-size: 100%;
+    font-size: 100%; /* 基准字体大小 */
 }
 
 body {
-    background-position: center;
-    color: var(--text-color);
-    min-height: 100vh;
+    background-position: center; /* 背景居中 */
+    color: var(--text-color); /* 使用CSS变量设置文字颜色 */
+    min-height: 100vh; /* 最小高度为视口高度 */
     margin: 0;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-    background-image: var(--bg-preview), var(--bg-full);
-    background-size: cover;
-    transition: opacity 0.5s ease;
-    position: relative;
+    font-family: Arial, sans-serif; /* 默认字体 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    background-image: var(--bg-preview), var(--bg-full); /* 背景图像（预览+高清） */
+    background-size: cover; /* 背景覆盖整个区域 */
+    transition: opacity 0.5s ease; /* 透明度过渡效果 */
+    position: relative; /* 相对定位 */
+    background-attachment: fixed; /* 固定背景位置 */
 }
 
+    /* 高清背景加载完成后的样式 */
     body.bg-loaded {
-        /* 加载完成后使用高清图 */
-        background-image: var(--bg-full);
+        background-image: var(--bg-full); /* 只显示高清背景 */
     }
 
-/* 基础设置 */
+/* 响应式字体设置 */
 html {
-    font-size: calc(0.75rem + 0.5vw);
+    font-size: calc(0.75rem + 0.5vw); /* 根据视口宽度动态调整字体大小 */
 }
 
-/* 标题体系 */
+/* ====================== 标题体系 ====================== */
 h1 {
-    font-size: clamp(2rem, 6vw, 3rem);
+    font-size: clamp(2rem, 6vw, 3rem); /* 响应式字体大小（最小值2rem，理想值6vw，最大值3rem） */
 }
 
 h2 {
@@ -58,21 +60,22 @@ h2 {
 
 h3 {
     font-size: clamp(1.5rem, 1vw, 2rem);
-    font-style: italic;
+    font-style: italic; /* 斜体样式 */
 }
 
-/* 段落 */
+/* 段落样式 */
 p {
-    font-size: clamp(1rem, 2.5vw, 1.125rem);
-    margin-bottom: 1.2em;
-    max-width: 65ch;
+    font-size: clamp(1rem, 2.5vw, 1.125rem); /* 响应式字体大小 */
+    margin-bottom: 1.2em; /* 底部外边距 */
+    max-width: 65ch; /* 最大字符宽度（优化可读性） */
 }
 
-/*图片加载完成后移除*/
+/* 背景加载过渡效果 */
 body:not(.bg-loaded) {
     position: relative;
 }
 
+    /* 背景加载时的遮罩层 */
     body:not(.bg-loaded)::after {
         content: '';
         position: absolute;
@@ -80,10 +83,11 @@ body:not(.bg-loaded) {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.02);
-        z-index: -1;
+        background: rgba(0,0,0,0.02); /* 半透明遮罩 */
+        z-index: -1; /* 置于背景层 */
     }
 
+/* 加载动画（未使用） */
 @keyframes loading {
     0% {
         background-position: 200% 0;
@@ -94,30 +98,31 @@ body:not(.bg-loaded) {
     }
 }
 
-/* 自适应按钮组 */
+/* ====================== 导航与按钮 ====================== */
+/* 按钮组容器 */
 .button-group {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: column; /* 垂直排列 */
+    gap: 10px; /* 按钮间距 */
     width: 100%; /* 继承父级宽度 */
-    overflow: visible;
+    overflow: visible; /* 允许内容溢出 */
 }
 
-/* 按钮 */
+/* 主要按钮样式 */
 .toggle {
-    background: var(--button-bg);
+    background: var(--button-bg); /* 使用CSS变量 */
     color: var(--text-color);
     border: none;
-    border-radius: 20px;
+    border-radius: 20px; /* 圆角 */
     cursor: pointer;
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%; /*统一宽度*/
+    backdrop-filter: blur(5px); /* 背景模糊效果 */
+    transition: all 0.3s ease; /* 平滑过渡 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    width: 100%; /* 统一宽度 */
     max-width: 100%;
     box-sizing: border-box;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    white-space: nowrap; /* 禁止换行 */
+    text-overflow: ellipsis; /* 文字溢出显示省略号 */
     line-height: 1.5;
     padding: 0.5% 1%;
     justify-content: center;
@@ -127,72 +132,78 @@ body:not(.bg-loaded) {
     text-align: center;
 }
 
+    /* 按钮悬停效果 */
     .toggle:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px); /* 轻微上移 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 增强阴影 */
     }
 
-    .toggle-mini {
-        border-radius: 30px;
-        background: var(--button-bg);
-        color: var(--text-color);
-        border: none;
-        cursor: pointer;
-        backdrop-filter: blur(5px);
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 100%; /*统一宽度*/
-        max-width: 100%;
-        box-sizing: border-box;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        line-height: 1.5;
-        padding: 5% 1%;
-        justify-content: center;
-        position: relative;
-        display: flex;
-        align-items: center;
-        text-align: center;
-    }
-
-#theme-toggle:hover {
-    transform: scale(1.05);
+/* 子菜单按钮样式 */
+.toggle.mini {
+    border-radius: 30px; /* 更圆的角 */
+    background: var(--button-bg);
+    color: var(--text-color);
+    border: none;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    padding: 5% 1%; /* 更大内边距 */
+    justify-content: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 
+/* 主题切换按钮特殊悬停效果 */
+#theme-toggle:hover {
+    transform: scale(1.05); /* 轻微放大 */
+}
+
+/* 文字省略号处理 */
 .ellipsis {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2; /* 限制显示的行数 */
+    -webkit-line-clamp: 2; /* 限制显示2行 */
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.4;
     max-height: 2.8em; /* 行高 × 行数 */
 }
 
-/* ====================== 区块设计 ====================== */
+/* ====================== 布局与区块设计 ====================== */
+/* 主容器网格布局 */
 .profile-container {
-    max-height: 100vh;
     display: grid;
+    /* 两列：头像列(最大200px)和内容列 */
     grid-template-columns: min(25vw, 200px) 1fr;
+    /* 两行：头像行(最大200px)和内容行 */
     grid-template-rows: min(25vw, 200px) 1fr;
-    gap: 10px;
-    height: 90%;
+    gap: 10px; /* 网格间隙 */
+    height: 90vh;
     width: 90%;
-    margin: 0 auto;
-    overflow-x: hidden;
+    margin: 0 auto; /* 居中 */
+    overflow-x: hidden; /* 隐藏水平溢出 */
 }
 
 /* ------ 头像区 ------ */
 .avatar {
-    grid-column: 1;
-    grid-row: 1;
+    grid-column: 1; /* 第一列 */
+    grid-row: 1; /* 第一行 */
     width: 100%;
     height: 100%;
-    aspect-ratio: 1/1;
-    background: linear-gradient(45deg, #FF9A9E 0%, #FAD0C4 50%, #A18CD1 100%);
-    border: 5px solid var(--text-color);
-    border-radius: 12px;
-    overflow: hidden;
+    aspect-ratio: 1/1; /* 保持正方形 */
+    background: linear-gradient(45deg, #FF9A9E 0%, #FAD0C4 50%, #A18CD1 100%); /* 渐变背景 */
+    border: 5px solid var(--text-color); /* 使用文字颜色作为边框 */
+    border-radius: 12px; /* 圆角 */
+    overflow: hidden; /* 隐藏溢出内容 */
 }
 
 /* ------ 基础信息区 ------ */
@@ -200,73 +211,66 @@ body:not(.bg-loaded) {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /*内容均匀分布*/
+    justify-content: space-between; /* 内容均匀分布 */
 }
 
-/* ------ 更多信息导航栏 ------ */
+/* ------ 导航栏 ------ */
 .navigation-bar {
     width: 100%;
     padding: 10px;
-    z-index: 100;
-    max-height: 90vh;
-    overflow-y: auto;
+    z-index: 100; /* 较高层级 */
+    max-height: 90vh; /* 最大高度 */
+    overflow-y: auto; /* 垂直滚动 */
 }
 
-/*导航样式*/
+/* 内容区域样式 */
 #content-text {
     padding: 20px;
-    max-height: 100%; /* 设置最大高度，超出则垂直滚动 */
-    overflow-y: auto;
-    overflow-wrap: break-word; /* 优先在单词内部换行 */
-    word-break: keep-all; /* 中文不随意断行，英文按单词换行 */
-    white-space: pre-line; /* 合并连续空格，但保留换行符 */
-    text-wrap: pretty;
+    max-height: 100%; /* 设置最大高度 */
+    overflow-y: auto; /* 垂直滚动 */
+    overflow-wrap: break-word; /* 单词内换行 */
+    word-break: keep-all; /* 中文不随意断行 */
+    white-space: pre-line; /* 保留换行符 */
+    text-wrap: pretty; /* 优化文本换行 */
 }
 
-/*可展开菜单样式*/
+/* ------ 可展开菜单 ------ */
 .expandable-menu {
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
+    /* 展开状态 */
     .expandable-menu.expanded {
-        gap: 10px;
+        gap: 10px; /* 增加间距 */
     }
 
-        .expandable-menu.expanded .sub-buttons {
-            max-height: 300px; /* 足够容纳子按钮的高度 */
-            opacity: 1;
-        }
-
-/*按钮文字容器*/
-.expand-btn {
-    flex-grow: 1;
-    text-align: center;
-}
-
-    .expand-btn::after {
-        content: " ▼";
-        font-size: 0.8em;
-    }
-
-.expandable-menu.expanded .expand-btn::after {
-    content: " ▲";
-}
-
-.expandable-menu.expanded .sub-buttons {
-    max-height: 300px;
-    opacity: 1;
-    display: flex；
-}
-
+/* 子按钮容器 */
 .sub-buttons {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.2s ease;
-    opacity: 0;
+    max-height: 0; /* 初始高度为0 */
+    overflow: hidden; /* 隐藏溢出 */
+    transition: max-height 0.3s ease, opacity 0.2s ease; /* 展开动画 */
+    opacity: 0; /* 初始透明 */
     flex-direction: column;
     gap: 10px;
+}
+
+/* 展开状态下的子按钮 */
+.expandable-menu.expanded .sub-buttons {
+    max-height: 300px; /* 最大高度 */
+    opacity: 1; /* 完全显示 */
+}
+
+/* 展开按钮指示器 */
+.expand-btn::after {
+    content: " ▼"; /* 向下箭头 */
+    font-size: 0.8em; /* 小号字体 */
+}
+
+/* 展开状态下的指示器 */
+.expandable-menu.expanded .expand-btn::after {
+    content: " ▲"; /* 向上箭头 */
 }
 
 /* ------ 个人介绍区 ------ */
@@ -275,7 +279,7 @@ body:not(.bg-loaded) {
     border-radius: 5px;
 }
 
-/* ------ 其他内容 ------ */
+/* ------ 其他内容区 ------ */
 .other {
     width: 90%;
     height: 10%;
@@ -283,7 +287,8 @@ body:not(.bg-loaded) {
     margin-right: 5%;
 }
 
-/*玻璃样式*/
+/* ====================== 特殊效果 ====================== */
+/* 毛玻璃效果面板 */
 .glass-panel {
     background: rgba(255, 255, 255, 0.2); /* 半透明白色 */
     backdrop-filter: blur(1px); /* 背景模糊 */
@@ -291,73 +296,92 @@ body:not(.bg-loaded) {
     border: 1px solid rgba(255, 255, 255, 0.2); /* 浅色边框 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 多层阴影 */
     width: 100%;
-    box-sizing: border-box; /* 确保内边距不影响总宽度 */
-    overflow-wrap: break-word; /* 强制长单词或URL换行 */
+    box-sizing: border-box; /* 内边距不影响总宽度 */
+    overflow-wrap: break-word; /* 强制长单词换行 */
     word-break: break-word; /* 中文换行 */
 }
 
-/*霓虹样式*/
+/* 霓虹灯效果标题 */
 .neon-effect {
     color: var(--text-color);
-    text-shadow: 0 0 5px #ffb6c1, 0 0 10px #ffb6c1, 0 0 20px #00fffc;
-    animation: neon-pulse 1.5s infinite alternate;
+    text-shadow: 0 0 5px #ffb6c1, 0 0 10px #ffb6c1, 0 0 20px #00fffc; /* 三层光晕 */
+    animation: neon-pulse 1.5s infinite alternate; /* 脉冲动画 */
+}
+
+/* 霓虹灯脉冲动画 */
+@keyframes neon-pulse {
+    from {
+        text-shadow: 0 0 5px #ffb6c1, 0 0 10px #ffb6c1, 0 0 20px #00fffc;
+    }
+
+    to {
+        text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493, 0 0 30px #00ffff;
+    }
 }
 
 /* ====================== 图片样式 ====================== */
-/*头像*/
+/* 头像图片 */
 .avatar img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 完全覆盖容器 */
+    object-fit: cover; /* 覆盖整个容器 */
     display: block;
 }
 
-/*背景图*/
+/* 渐进加载图片 */
 img.progressive {
-    opacity: 0;
-    transition: opacity 0.6s ease;
+    opacity: 0; /* 初始透明 */
+    transition: opacity 0.6s ease; /* 透明度过渡 */
 }
 
+    /* 加载完成后的图片 */
     img.progressive.loaded {
-        opacity: 1;
+        opacity: 1; /* 完全显示 */
     }
 
+/* 背景容器 */
 .background-container {
     position: relative;
 }
 
+/* 背景通用样式 */
 .background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease; /* 透明度过渡 */
 }
 
+/* 缩略图 */
 .thumb {
-    opacity: 1;
+    opacity: 1; /* 初始显示 */
 }
 
+/* 高清图 */
 .full {
-    opacity: 0;
+    opacity: 0; /* 初始隐藏 */
 }
 
+/* 加载完成后的状态 */
 .loaded .thumb {
-    opacity: 0;
+    opacity: 0; /* 隐藏缩略图 */
 }
 
 .loaded .full {
-    opacity: 1;
+    opacity: 1; /* 显示高清图 */
 }
 
-/* ====================== 适配 ====================== */
-/*电脑端*/
+/* ====================== 响应式适配 ====================== */
+/* 桌面端样式 (宽度≥769px) */
 @media (min-width: 769px) {
     .profile-container {
+        /* 计算最小高度（视口高度 - 页眉页脚） */
         min-height: calc(100vh - var(--header-height, 80px) - var(--footer-height, 60px));
     }
 
+    /* 按钮字体响应式 */
     .toggle {
         font-size: clamp(12px, 3vw, 24px);
     }
@@ -367,28 +391,32 @@ img.progressive {
         }
 }
 
-/*移动端*/
+/* 移动端样式 (宽度≤768px) */
 @media (max-width: 768px) {
+    /* 基础设置 */
     html, body {
         overflow: hidden;
-        touch-action: none;
+        touch-action: none; /* 禁用默认触摸行为 */
         height: 100vh;
         width: 100vw;
         margin: 0;
         padding: 0;
     }
 
+    /* 调整网格布局 */
     .profile-container {
         grid-template-columns: min(20vw, 200px) 1fr;
         grid-template-rows: min(20vw, 200px) 1fr;
     }
 
+    /* 其他内容区 */
     .other {
         height: 10vh;
         min-height: 50px;
         padding: 5px;
     }
 
+    /* 展开的导航栏 */
     .navigation-bar.expanded {
         width: 150px;
     }
@@ -398,19 +426,16 @@ img.progressive {
             padding: 10px;
         }
 
-            .navigation-bar.expanded .toggle::before {
-                display: none;
-            }
-
+    /* 个人介绍区 */
     .profile {
         height: 100%;
-        overflow-y: auto;
+        overflow-y: auto; /* 垂直滚动 */
         padding: 10px;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
     }
 
-
+    /* 按钮样式 */
     .toggle {
         font-size: clamp(12px, 3vw, 24px);
     }
@@ -419,6 +444,7 @@ img.progressive {
             font-size: clamp(12px, 2vw, 18px);
         }
 
+        /* 移动端禁用悬停效果 */
         .toggle:hover {
             transform: none;
         }
