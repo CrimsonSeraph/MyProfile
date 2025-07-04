@@ -28,7 +28,8 @@ html {
 body {
     background-position: center; /* 背景居中 */
     color: var(--text-color); /* 使用CSS变量设置文字颜色 */
-    min-height: 100vh; /* 最小高度为视口高度 */
+    min-height: 100dvh; /* 最小高度为视口高度 */
+    min-height: calc(var( --real-vh,1vh)*100);
     margin: 0;
     font-family: Arial, sans-serif; /* 默认字体 */
     overflow: hidden; /* 隐藏溢出内容 */
@@ -87,17 +88,6 @@ body:not(.bg-loaded) {
         z-index: -1; /* 置于背景层 */
     }
 
-/* 加载动画（未使用） */
-@keyframes loading {
-    0% {
-        background-position: 200% 0;
-    }
-
-    100% {
-        background-position: -200% 0;
-    }
-}
-
 /* ====================== 导航与按钮 ====================== */
 /* 按钮组容器 */
 .button-group {
@@ -138,29 +128,29 @@ body:not(.bg-loaded) {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 增强阴影 */
     }
 
-/* 子菜单按钮样式 */
-.toggle.mini {
-    border-radius: 30px; /* 圆角 */
-    background: var(--button-bg);
-    color: var(--text-color);
-    border: none;
-    cursor: pointer;
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    line-height: 1.5;
-    padding: 5% 1%; /* 内边距 */
-    justify-content: center;
-    position: relative;
-    display: flex;
-    align-items: center;
-    text-align: center;
-}
+    /* 子菜单按钮样式 */
+    .toggle.mini {
+        border-radius: 30px; /* 圆角 */
+        background: var(--button-bg);
+        color: var(--text-color);
+        border: none;
+        cursor: pointer;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        line-height: 1.5;
+        padding: 5% 1%; /* 内边距 */
+        justify-content: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
 
 /* 主题切换按钮特殊悬停效果 */
 #theme-toggle:hover {
@@ -187,7 +177,8 @@ body:not(.bg-loaded) {
     /* 两行：头像行(最大200px)和内容行 */
     grid-template-rows: min(25vw, 200px) 1fr;
     gap: 10px; /* 网格间隙 */
-    height: 90vh;
+    height: 90dvh;
+    min-height: calc(var( --real-vh,1vh)*90);
     width: 90%;
     margin: 0 auto; /* 居中 */
     overflow-x: hidden; /* 隐藏水平溢出 */
@@ -387,7 +378,7 @@ img.progressive {
     }
 
         .toggle.mini {
-            font-size: clamp(10px, 1.7vw, 18px);
+            font-size: 0.8em;
         }
 }
 
@@ -441,7 +432,7 @@ img.progressive {
     }
 
         .toggle.mini {
-            font-size: clamp(10px, 1.7vw, 18px);
+            font-size: 0.8em;
         }
 
         /* 移动端禁用悬停效果 */

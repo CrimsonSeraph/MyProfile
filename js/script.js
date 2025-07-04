@@ -1,130 +1,132 @@
-// ========== 主题管理模块 ==========
-const theme = {
-    elements: null, // 用于存储DOM元素的引用
-    _updateTimeout: null, // 用于背景更新函数的防抖
-    _highResImg: null, // 用于存储高清背景图的Image对象
-
-    // 更新背景图片（响应式+主题感知）
-    updateBackground: function () {
-        // 清除之前的防抖定时器
-        if (this._updateTimeout) clearTimeout(this._updateTimeout);
-
-        // 设置防抖延迟（150ms后执行）
-        this._updateTimeout = setTimeout(() => {
-            // 检测当前是否为暗黑模式
-            const isDark = document.body.classList.contains('dark-mode');
-            // 检测当前是否为移动设备（宽度<=768px）
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-            // 根据设备和主题获取预览图路径
-            const previewPath = isMobile
-                ? (isDark
-                    ? IMAGE_PATHS.backgrounds.mobile.night.thumb // 移动端暗黑预览图
-                    : IMAGE_PATHS.backgrounds.mobile.day.thumb)  // 移动端日间预览图
-                : (isDark
-                    ? IMAGE_PATHS.backgrounds.pc.night.thumb    // PC端暗黑预览图
-                    : IMAGE_PATHS.backgrounds.pc.day.thumb);   // PC端日间预览图
-
-            // 根据设备和主题获取高清图路径
-            const fullPath = isMobile
-                ? (isDark
-                    ? IMAGE_PATHS.backgrounds.mobile.night.full  // 移动端暗黑高清图
-                    : IMAGE_PATHS.backgrounds.mobile.day.full)   // 移动端日间高清图
-                : (isDark
-                    ? IMAGE_PATHS.backgrounds.pc.night.full     // PC端暗黑高清图
-                    : IMAGE_PATHS.backgrounds.pc.day.full);     // PC端日间高清图
-
-            // 1. 清除旧的高清背景（先设置为none）
-            document.documentElement.style.setProperty('--bg-full', 'none');
-
-            // 2. 设置预览图背景
-            const newPreview = `url(${previewPath})`;
-            // 只有当预览图路径改变时才更新（避免不必要的重绘）
-            if (document.documentElement.style.getPropertyValue('--bg-preview') !== newPreview) {
-                document.documentElement.style.setProperty('--bg-preview', newPreview);
-            }
-
-            // 3. 清除旧的高清图加载器（如果存在）
-            if (this._highResImg) {
-                this._highResImg.onload = null;
-                this._highResImg.onerror = null;
-            }
-
-            // 4. 渐进式加载高清背景图
-            const highResImg = new Image();
-            this._highResImg = highResImg; // 存储引用以便后续清理
-            highResImg.src = fullPath; // 开始加载高清图
-
-            // 高清图加载完成后的回调
-            highResImg.onload = () => {
-                // 设置CSS变量为高清图URL
-                document.documentElement.style.setProperty('--bg-full', `url(${fullPath})`);
-                // 添加加载完成标志类（用于触发过渡效果）
-                document.body.classList.add('bg-loaded');
-            };
-        }, 150); // 防抖延迟150毫秒
-    },
-
-    // 初始化主题系统
-    init: function () {
-        // 获取DOM元素引用
-        this.elements = {
-            toggleBtn: document.getElementById('theme-toggle'), // 主题切换按钮
-            body: document.body // body元素
-        };
-
-        // 检查本地存储的主题设置
-        const savedTheme = localStorage.getItem('theme');
-        // 检测系统首选主题
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        // 应用主题逻辑（优先级：本地存储 > 系统设置）
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            this.elements.body.classList.add('dark-mode'); // 应用暗黑模式
-            this.elements.toggleBtn.textContent = '切换白天'; // 更新按钮文本
-        }
-
-        // 初始更新背景
-        this.updateBackground();
-
-        // 添加主题切换按钮的点击事件
-        this.elements.toggleBtn.addEventListener('click', () => {
-            e.stopPropagation(); // 阻止事件冒泡
-            this.toggle(); // 调用切换方法
-        });
-
-        // 监听系统主题变化（仅在未设置本地主题时响应）
-        window.matchMedia('(prefers-color-scheme: dark)')
-            .addEventListener('change', e => {
-                if (!localStorage.getItem('theme')) {
-                    this.updateBackground(); // 更新背景
-                }
-            });
-    },
-
-    // 切换主题模式
-    toggle: function () {
-        // 切换暗黑模式类
-        this.elements.body.classList.toggle('dark-mode');
-        // 检测当前是否为暗黑模式
-        const isDark = this.elements.body.classList.contains('dark-mode');
-
-        // 更新按钮文本
-        this.elements.toggleBtn.textContent = isDark ? '切换白天' : '切换夜间';
-        // 保存主题设置到本地存储
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
-        // 重置背景加载状态
-        document.body.classList.remove('bg-loaded'); // 移除加载完成标志
-        this.updateBackground(); // 更新背景
-    }
-};
-
 // 监听窗口大小变化事件（更新背景）
 window.addEventListener('resize', () => theme.updateBackground());
 
 // DOM加载完成后执行主逻辑
 document.addEventListener('DOMContentLoaded', async function () {
+
+    // ========== 主题管理模块 ==========
+    const theme = {
+        elements: null, // 用于存储DOM元素的引用
+        _updateTimeout: null, // 用于背景更新函数的防抖
+        _highResImg: null, // 用于存储高清背景图的Image对象
+
+        // 更新背景图片（响应式+主题感知）
+        updateBackground: function () {
+            // 清除之前的防抖定时器
+            if (this._updateTimeout) clearTimeout(this._updateTimeout);
+
+            // 设置防抖延迟（150ms后执行）
+            this._updateTimeout = setTimeout(() => {
+                // 检测当前是否为暗黑模式
+                const isDark = document.body.classList.contains('dark-mode');
+                // 检测当前是否为移动设备（宽度<=768px）
+                const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+                // 根据设备和主题获取预览图路径
+                const previewPath = isMobile
+                    ? (isDark
+                        ? IMAGE_PATHS.backgrounds.mobile.night.thumb // 移动端暗黑预览图
+                        : IMAGE_PATHS.backgrounds.mobile.day.thumb)  // 移动端日间预览图
+                    : (isDark
+                        ? IMAGE_PATHS.backgrounds.pc.night.thumb    // PC端暗黑预览图
+                        : IMAGE_PATHS.backgrounds.pc.day.thumb);   // PC端日间预览图
+
+                // 根据设备和主题获取高清图路径
+                const fullPath = isMobile
+                    ? (isDark
+                        ? IMAGE_PATHS.backgrounds.mobile.night.full  // 移动端暗黑高清图
+                        : IMAGE_PATHS.backgrounds.mobile.day.full)   // 移动端日间高清图
+                    : (isDark
+                        ? IMAGE_PATHS.backgrounds.pc.night.full     // PC端暗黑高清图
+                        : IMAGE_PATHS.backgrounds.pc.day.full);     // PC端日间高清图
+
+                // 1. 清除旧的高清背景（先设置为none）
+                document.documentElement.style.setProperty('--bg-full', 'none');
+
+                // 2. 设置预览图背景
+                const newPreview = `url(${previewPath})`;
+                // 只有当预览图路径改变时才更新（避免不必要的重绘）
+                if (document.documentElement.style.getPropertyValue('--bg-preview') !== newPreview) {
+                    document.documentElement.style.setProperty('--bg-preview', newPreview);
+                }
+
+                // 3. 清除旧的高清图加载器（如果存在）
+                if (this._highResImg) {
+                    this._highResImg.onload = null;
+                    this._highResImg.onerror = null;
+                }
+
+                // 4. 渐进式加载高清背景图
+                const highResImg = new Image();
+                this._highResImg = highResImg; // 存储引用以便后续清理
+                highResImg.src = fullPath; // 开始加载高清图
+
+                // 高清图加载完成后的回调
+                highResImg.onload = () => {
+                    // 设置CSS变量为高清图URL
+                    document.documentElement.style.setProperty('--bg-full', `url(${fullPath})`);
+                    // 添加加载完成标志类（用于触发过渡效果）
+                    document.body.classList.add('bg-loaded');
+                };
+            }, 150); // 防抖延迟150毫秒
+        },
+
+        // 初始化主题系统
+        init: function () {
+
+            // 防止重复初始化
+            if (this.initialized) {
+                return;
+            }
+
+            // 获取DOM元素引用
+            const toggleBtn = document.getElementById('theme-toggle');
+            this.elements = {
+                toggleBtn: toggleBtn,
+                body: document.body
+            };
+
+            // 检查本地存储的主题设置
+            const savedTheme = localStorage.getItem('theme');
+            // 检测系统首选主题
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // 应用主题逻辑（优先级：本地存储 > 系统设置）
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                this.elements.body.classList.add('dark-mode'); // 应用暗黑模式
+                this.elements.toggleBtn.textContent = '切换白天'; // 更新按钮文本
+            }
+
+            // 初始更新背景
+            this.updateBackground();
+
+            // 监听系统主题变化（仅在未设置本地主题时响应）
+            window.matchMedia('(prefers-color-scheme: dark)')
+                .addEventListener('change', e => {
+                    if (!localStorage.getItem('theme')) {
+                        this.updateBackground(); // 更新背景
+                    }
+                });
+        },
+
+        // 切换主题模式
+        toggle: function () {
+            // 切换暗黑模式类
+            this.elements.body.classList.toggle('dark-mode');
+            // 检测当前是否为暗黑模式
+            const isDark = this.elements.body.classList.contains('dark-mode');
+
+            // 更新按钮文本
+            this.elements.toggleBtn.textContent = isDark ? '切换白天' : '切换夜间';
+            // 保存主题设置到本地存储
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+            // 重置背景加载状态
+            document.body.classList.remove('bg-loaded'); // 移除加载完成标志
+            this.updateBackground(); // 更新背景
+        }
+    };
+
     // ========== 内容切换系统 ==========
     const contentSystem = {
         // 初始化内容系统
@@ -260,6 +262,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             container.style.minHeight = `calc(100vh - ${headerHeight + footerHeight}px)`;
         }
     }
+    // 适配旧浏览器
+    function setRealVh() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--real-vh', `${vh}px`);
+    }
+    setRealVh();
+    window.addEventListener('resize', setRealVh);
 
     // 监听窗口大小变化（调整高度）
     window.addEventListener('resize', adjustHeight);
