@@ -258,7 +258,7 @@ body:not(.bg-loaded) {
 
 /* 展开状态下的子按钮 */
 .expandable-menu.expanded .sub-buttons {
-    max-height: 300px; /* 最大高度 */
+    max-height: 400px; /* 最大高度 */
     opacity: 1; /* 完全显示 */
 }
 
