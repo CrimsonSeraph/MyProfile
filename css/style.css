@@ -140,7 +140,7 @@ body:not(.bg-loaded) {
 
 /* 子菜单按钮样式 */
 .toggle.mini {
-    border-radius: 30px; /* 更圆的角 */
+    border-radius: 30px; /* 圆角 */
     background: var(--button-bg);
     color: var(--text-color);
     border: none;
@@ -154,7 +154,7 @@ body:not(.bg-loaded) {
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: 1.5;
-    padding: 5% 1%; /* 更大内边距 */
+    padding: 5% 1%; /* 内边距 */
     justify-content: center;
     position: relative;
     display: flex;
@@ -387,7 +387,7 @@ img.progressive {
     }
 
         .toggle.mini {
-            font-size: clamp(12px, 2vw, 18px);
+            font-size: clamp(10px, 1.7vw, 18px);
         }
 }
 
@@ -441,7 +441,7 @@ img.progressive {
     }
 
         .toggle.mini {
-            font-size: clamp(12px, 2vw, 18px);
+            font-size: clamp(10px, 1.7vw, 18px);
         }
 
         /* 移动端禁用悬停效果 */
