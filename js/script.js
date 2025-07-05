@@ -1,6 +1,3 @@
-// 监听窗口大小变化事件（更新背景）
-window.addEventListener('resize', () => theme.updateBackground());
-
 // DOM加载完成后执行主逻辑
 document.addEventListener('DOMContentLoaded', async function () {
 
@@ -107,6 +104,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                         this.updateBackground(); // 更新背景
                     }
                 });
+
+            // 监听窗口大小变化事件（更新背景）
+            window.addEventListener('resize', () => theme.updateBackground());
         },
 
         // 切换主题模式
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (contentData) {
                 // 构建内容HTML结构
                 this.elements.contentText.innerHTML = `
-                    <h1 class="neon-effect">${contentData.title}</h1>
+                    <h1>${contentData.title}</h1>
                     <div class="content-body">${contentData.content}</div>
                 `;
             } else {
