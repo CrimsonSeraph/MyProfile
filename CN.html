@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 响应式设计，适配移动设备 -->
     <title>CrimsonSeraph</title> <!-- 页面标题 -->
     <link rel="stylesheet" href="css/style.css"> <!-- 外部样式表链接，控制页面整体样式 -->
+    <link rel="stylesheet" href="css/pulse.css"> <!-- 脉冲动画 -->
 </head>
 <body>
 
@@ -20,7 +21,12 @@
 
         <!-- 基础信息区域：显示个人基本信息，应用毛玻璃效果 -->
         <div class="info glass-panel">
-            <h1>test1</h1> <!-- 标题占位符 -->
+
+            <div class="ecg-container">
+                <div class="ecg-grid"></div>
+                <canvas id="ecgCanvas"></canvas>
+            </div>
+
         </div>
 
         <!-- 导航栏区域：提供不同内容板块的导航，应用毛玻璃效果 -->
@@ -76,5 +82,6 @@
     <!-- JavaScript文件引用 -->
     <script src="js/script.js"></script> <!-- 主功能脚本：处理交互逻辑、主题切换等 -->
     <script src="js/content.js"></script> <!-- 内容加载脚本：根据导航选择加载不同内容 -->
+    <script src="js/pulse.js"></script> <!-- 脉冲动画 -->
 </body>
 </html>
