@@ -16,7 +16,7 @@
     --text-border-color: rgba(0, 30, 80, 0.9); /* 夜间模式文字边框色-深蓝轮廓（防止光晕） */
     --card-bg-color: rgba(10, 20, 50, 0.5); /* 夜间模式页面卡片背景颜色-夜空蓝半透明 */
     --card-border-color: rgba(200, 170, 50, 0.6); /* 夜间模式页面卡片边框颜色-古铜金半透明 */
-    --button-bg: rgba(255,255,255,0.1); /* 夜间模式按钮背景 */
+    --button-bg: rgba(255, 255, 255, 0.1); /* 夜间模式按钮背景 */
 }
 
 /* 通用重置 */
@@ -39,11 +39,11 @@ body {
     margin: 0;
     font-family: Arial, sans-serif; /* 默认字体 */
     overflow: hidden; /* 隐藏溢出内容 */
-    background-image: var(--bg-preview), var(--bg-full); /* 背景图像（预览+高清） */
     background-size: cover; /* 背景覆盖整个区域 */
     transition: opacity 0.5s ease; /* 透明度过渡效果 */
     position: relative; /* 相对定位 */
     background-attachment: fixed; /* 固定背景位置 */
+    background-image: var(--bg-preview); /* 只显示预览背景 */
 }
 
     /* 高清背景加载完成后的样式 */
@@ -78,11 +78,7 @@ p {
 }
 
 h1, h2, h3, p {
-    text-shadow:
-        -1px 0 var(--text-border-color),
-        0 -1px var(--text-border-color),
-        1px 0 var(--text-border-color),
-        0 1px var(--text-border-color);
+    text-shadow: -1px 0 var(--text-border-color), 0 -1px var(--text-border-color), 1px 0 var(--text-border-color), 0 1px var(--text-border-color);
 }
 
 /* 背景加载过渡效果 */
@@ -254,6 +250,7 @@ body:not(.bg-loaded) {
 
 /* 子按钮容器 */
 .sub-buttons {
+    display: flex;
     max-height: 0; /* 初始高度为0 */
     overflow: hidden; /* 隐藏溢出 */
     transition: max-height 0.3s ease, opacity 0.2s ease; /* 展开动画 */
