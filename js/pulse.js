@@ -81,7 +81,7 @@ let pulseIndex = 0;
 function draw() {
 
     // 获取颜色
-    const rootStyles = getComputedStyle(document.body);
+    const rootStyles = getComputedStyle(document.body); // 从body中获取
     const waveColor = rootStyles.getPropertyValue('--pulse-color').trim();
     const baselineColor = rootStyles.getPropertyValue('--pulse-color').trim();
 

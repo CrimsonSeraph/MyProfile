@@ -1,42 +1,111 @@
-﻿:root {
-    --pulse-color: #003399;
+﻿/* ========== 根元素自定义属性定义 (适用于亮色模式) ========== */
+:root {
+    --pulse-color: #003399; /* 心电图线条主颜色 (深蓝色) */
+    --pulse-text-color: rgba(0, 40, 100, 0.5); /* 中心文本颜色 (半透明深蓝) */
 }
 
+/* ========== 暗色模式自定义属性覆盖 ========== */
 .dark-mode {
-    --pulse-color: #ffd700;
+    --pulse-color: #ffd700; /* 暗色模式下的心电图线条颜色 (金色) */
+    --pulse-text-color: rgba(255, 215, 0, 0.5); /* 暗色模式中心文本颜色 (半透明金色) */
 }
 
+/* ========== 心电图容器样式 ========== */
 .ecg-container {
-    position: relative;
-    width: 100%;
-    height: 50%;
-    background: var(--card-bg-color);
-    border-radius: 8px;
-    overflow: hidden;
+    position: relative; /* 作为子元素的定位基准 */
+    width: 100%; /* 撑满父容器宽度 */
+    height: 50%; /* 占父容器50%高度 */
+    background: var(--card-bg-color); /* 使用主题卡片背景色 */
+    border-radius: 8px; /* 圆角效果 */
+    overflow: hidden; /* 隐藏超出部分 */
 }
 
+/* ========== 心电图网格背景 ========== */
 .ecg-grid {
-    position: absolute;
+    position: absolute; /* 相对于容器绝对定位 */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    /* 创建网格线背景：垂直浅绿线 + 水平浅绿线 */
     background-image: linear-gradient(to right, rgba(0, 100, 0, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 100, 0, 0.1) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 1;
+    background-size: 40px 40px; /* 网格单元格尺寸 40x40 像素 */
+    pointer-events: none; /* 禁止鼠标交互 */
+    z-index: 1; /* 置于底层 */
 }
 
+/* ========== 通用canvas样式 ========== */
 canvas {
-    display: block;
+    display: block; /* 消除内联元素间隙 */
     width: 100%;
     height: 100%;
 }
 
+/* ========== 心电图画布特定样式 ========== */
 #ecgCanvas {
     display: block;
     width: 100%;
     height: 100%;
-    position: relative;
-    z-index: 2;
+    position: relative; /* 建立新定位上下文 */
+    z-index: 2; /* 显示在网格上方 */
+}
+
+/* ========== 中心显示的文本样式 ========== */
+.ecg-content {
+    position: absolute; /* 覆盖在心电图上方 */
+    top: 30%; /* 垂直居中偏上位置 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 精确居中 */
+    color: var(--pulse-text-color); /* 使用主题文本色 */
+    font-size: clamp(1.5rem, 2vw, 5rem); /* 响应式字体：最小1.5rem，按视口缩放，最大4rem */
+    transition: font-size 0.3s ease; /* 字体大小变化动画 */
+    font-weight: bold; /* 粗体显示 */
+    text-align: center; /* 文本居中 */
+    z-index: 10; /* 确保显示在最顶层 */
+    pointer-events: none; /* 禁止文本阻挡鼠标事件 */
+    text-shadow: -1px 0 var(--text-border-color), 0 -1px var(--text-border-color), 1px 0 var(--text-border-color), 0 1px var(--text-border-color); /* 镀金 */
+}
+
+/* ========== 底部输出信息样式 ========== */
+.ecg-out {
+    position: absolute;
+    top: 75%; /* 定位在容器底部区域 */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-color); /* 使用主题文本色 */
+    font-size: clamp(1.5rem, 3vw, 4rem); /* 响应式字体 */
+    text-shadow: -1px 0 var(--text-border-color), 0 -1px var(--text-border-color), 1px 0 var(--text-border-color), 0 1px var(--text-border-color);
+}
+
+/* ========== 信息容器布局 ========== */
+.info {
+    display: flex; /* 启用弹性布局 */
+    flex-direction: column; /* 垂直排列子元素 */
+    height: 100%; /* 继承父容器高度 */
+}
+
+/* ========== 顶部和底部区域共用样式 ========== */
+.ecg-top,
+.ecg-down {
+    flex: 1; /* 平均分配剩余空间 */
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    white-space: nowrap; /* 防止文本换行 */
+}
+
+/* ========== 响应式设计 - 平板设备 (≤768px) ========== */
+@media (max-width: 768px) {
+    .ecg-content {
+        /* 调整字体大小范围：最小1.0rem，按视口1.5vw缩放，最大3.5rem */
+        font-size: clamp(1.0rem, 1.5vw, 3.5rem);
+    }
+}
+
+/* ========== 响应式设计 - 手机设备 (≤480px) ========== */
+@media (max-width: 480px) {
+    .ecg-content {
+        /* 更小的字体适应小屏幕：最小0.5rem，按视口1.0vw缩放，最大3rem */
+        font-size: clamp(0.5rem, 1.0vw, 3rem);
+    }
 }

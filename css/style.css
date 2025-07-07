@@ -27,9 +27,6 @@
 }
 
 /* 基础设置 */
-html {
-    font-size: 100%; /* 基准字体大小 */
-}
 
 body {
     background-position: center; /* 背景居中 */
