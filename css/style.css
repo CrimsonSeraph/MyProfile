@@ -200,7 +200,7 @@ body:not(.bg-loaded) {
     height: 100%;
     aspect-ratio: 1/1; /* 保持正方形 */
     background: linear-gradient(45deg, #FF9A9E 0%, #FAD0C4 50%, #A18CD1 100%); /* 渐变背景 */
-    border: 5px solid var(--card-border-color);
+    border: 3px solid var(--card-border-color);
     border-radius: 12px; /* 圆角 */
     overflow: hidden; /* 隐藏溢出内容 */
 }
@@ -319,6 +319,16 @@ body:not(.bg-loaded) {
     }
 }
 
+/* 渐变颜色效果 */
+.gradient-text {
+    background: linear-gradient(45deg, #FF9A9E 0%, #FAD0C4 50%, #A18CD1 100%); /* 创建渐变背景 */
+    -webkit-background-clip: text; /* 将背景裁剪到文字区域 */
+    background-clip: text;
+    color: transparent; /* 隐藏原始文字颜色 */
+    -webkit-text-fill-color: transparent; /* Safari兼容 */
+    display: inline-block; /* 确保渐变效果正确应用 */
+}
+
 /* ====================== 图片样式 ====================== */
 /* 头像图片 */
 .avatar img {
@@ -383,11 +393,11 @@ img.progressive {
 
     /* 按钮字体响应式 */
     .toggle {
-        font-size: clamp(12px, 3vw, 24px);
+        font-size: clamp(16px, 3vw, 24px);
     }
 
         .toggle.mini {
-            font-size: 0.8em;
+            font-size: clamp(10px, 1.8vw, 18px);
         }
 }
 
@@ -438,11 +448,11 @@ img.progressive {
 
     /* 按钮样式 */
     .toggle {
-        font-size: clamp(12px, 3vw, 24px);
+        font-size: clamp(16px, 3vw, 24px);
     }
 
         .toggle.mini {
-            font-size: 0.8em;
+            font-size: clamp(10px, 1.8vw, 18px);
         }
 
         /* 移动端禁用悬停效果 */
