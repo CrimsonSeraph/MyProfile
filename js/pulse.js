@@ -81,7 +81,7 @@ let pulseIndex = 0;
 function draw() {
 
     // »ñÈ¡ÑÕÉ«
-    const rootStyles = getComputedStyle(document.documentElement);
+    const rootStyles = getComputedStyle(document.body);
     const waveColor = rootStyles.getPropertyValue('--pulse-color').trim();
     const baselineColor = rootStyles.getPropertyValue('--pulse-color').trim();
 

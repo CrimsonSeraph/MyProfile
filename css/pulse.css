@@ -1,9 +1,9 @@
 ﻿:root {
-    --pulse-color: #ffd700;
+    --pulse-color: #003399;
 }
 
 .dark-mode {
-    --pulse-color: #003399;
+    --pulse-color: #ffd700;
 }
 
 .ecg-container {
