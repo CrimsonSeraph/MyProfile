@@ -8,6 +8,7 @@
     --card-bg-color: rgba(230, 240, 255, 0.5); /* 页面卡片背景颜色（使用rgba以确保半透明背景）-冰蓝半透明 */
     --card-border-color: rgba(0, 80, 160, 0.7); /* 页面卡片边框颜色-宝石蓝半透明 */
     --button-bg: rgba(0,0,0,0.1); /* 按钮背景色 */
+    --install-button-bg: rgba(10, 20, 50, 0.5); /* 主题按钮背景 */
 }
 
 /* 夜间模式覆盖变量 */
@@ -17,6 +18,7 @@
     --card-bg-color: rgba(10, 20, 50, 0.5); /* 夜间模式页面卡片背景颜色-夜空蓝半透明 */
     --card-border-color: rgba(200, 170, 50, 0.6); /* 夜间模式页面卡片边框颜色-古铜金半透明 */
     --button-bg: rgba(255, 255, 255, 0.1); /* 夜间模式按钮背景 */
+    --install-button-bg: rgba(230, 240, 255, 0.5); /* 夜间主题按钮背景色 */
 }
 
 /* 通用重置 */
@@ -51,6 +53,7 @@ body {
 /* 响应式字体设置 */
 html {
     font-size: calc(0.75rem + 0.5vw); /* 根据视口宽度动态调整字体大小 */
+    white-space: nowrap; /* 禁止换行 */
 }
 
 /* ====================== 标题体系 ====================== */
@@ -107,7 +110,7 @@ body:not(.bg-loaded) {
 
 /* 主要按钮样式 */
 .toggle {
-    background: var(--button-bg); /* 使用CSS变量 */
+    background: var(--button-bg);
     color: var(--text-color);
     border: none;
     border-radius: 20px; /* 圆角 */
@@ -159,6 +162,11 @@ body:not(.bg-loaded) {
         align-items: center;
         text-align: center;
     }
+/* 主题按键特殊化 */
+.theme-btn {
+    border-radius: 10px; /* 圆角 */
+    background: var(--install-button-bg);
+}
 
 /* 主题切换按钮特殊悬停效果 */
 #theme-toggle:hover {
@@ -285,6 +293,7 @@ body:not(.bg-loaded) {
     height: 10%;
     margin-left: 5%;
     margin-right: 5%;
+    white-space: nowrap; /* 禁止换行 */
 }
 
 /* ====================== 特殊效果 ====================== */

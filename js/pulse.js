@@ -136,14 +136,18 @@ function draw() {
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
 
-    // 关键修复：正确的滚动计算
+    // 滚动计算
     const scrollFactor = 1 + (waveScrollSpeed * 0.1);
     const offset = width - dataPoints.length * scrollFactor;
+    const pointSpacing = 2;
 
     // 绘制路径
     for (let i = 0; i < dataPoints.length; i++) {
         const x = offset + i * scrollFactor;
         const y = centerY - dataPoints[i];
+
+        if (x < 0) continue;
+        if (x > width) break;
 
         if (i === 0) {
             ctx.moveTo(x, y);

@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             // 应用主题逻辑（优先级：本地存储 > 系统设置）
             if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
                 this.elements.body.classList.add('dark-mode'); // 应用暗黑模式
-                this.elements.toggleBtn.textContent = '切换白天'; // 更新按钮文本
+                this.elements.toggleBtn.textContent = '切换白天☀️'; // 更新按钮文本
             }
 
             // 初始更新背景
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const isDark = this.elements.body.classList.contains('dark-mode');
 
             // 更新按钮文本
-            this.elements.toggleBtn.textContent = isDark ? '切换白天' : '切换夜间';
+            this.elements.toggleBtn.textContent = isDark ? '切换白天☀️' : '切换夜间🌙';
             // 保存主题设置到本地存储
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
 
