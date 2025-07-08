@@ -296,6 +296,11 @@ body:not(.bg-loaded) {
     white-space: nowrap; /* 禁止换行 */
 }
 
+.end-content {
+    font-size: clamp(1px, 2.0vw, 24px);
+    margin-bottom: 0px;
+}
+
 /* ====================== 特殊效果 ====================== */
 /* 毛玻璃效果面板 */
 .glass-panel {
@@ -396,11 +401,9 @@ img.progressive {
 /* 桌面端样式 (宽度≥769px) */
 @media (min-width: 769px) {
     .profile-container {
-        /* 计算最小高度（视口高度 - 页眉页脚） */
         min-height: calc(100vh - var(--header-height, 80px) - var(--footer-height, 60px));
     }
 
-    /* 按钮字体响应式 */
     .toggle {
         font-size: clamp(16px, 3vw, 24px);
     }
@@ -408,34 +411,35 @@ img.progressive {
         .toggle.mini {
             font-size: clamp(10px, 1.8vw, 18px);
         }
+
+    .end-content {
+        font-size: clamp(1px, 2.8vw, 36px);
+        margin-bottom: 0px;
+    }
 }
 
 /* 移动端样式 (宽度≤768px) */
 @media (max-width: 768px) {
-    /* 基础设置 */
     html, body {
         overflow: hidden;
-        touch-action: none; /* 禁用默认触摸行为 */
+        touch-action: none;
         height: 100vh;
         width: 100vw;
         margin: 0;
         padding: 0;
     }
 
-    /* 调整网格布局 */
     .profile-container {
         grid-template-columns: min(20vw, 200px) 1fr;
         grid-template-rows: min(20vw, 200px) 1fr;
     }
 
-    /* 其他内容区 */
     .other {
         height: 10vh;
         min-height: 50px;
         padding: 5px;
     }
 
-    /* 展开的导航栏 */
     .navigation-bar.expanded {
         width: 150px;
     }
@@ -445,27 +449,29 @@ img.progressive {
             padding: 10px;
         }
 
-    /* 个人介绍区 */
     .profile {
         height: 100%;
-        overflow-y: auto; /* 垂直滚动 */
-        overflow-y: auto; /* 垂直滚动 */
+        overflow-y: auto;
+        overflow-y: auto;
         padding: 10px;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
     }
 
-    /* 按钮样式 */
     .toggle {
-        font-size: clamp(16px, 3vw, 24px);
+        font-size: clamp(1px, 2.8vw, 24px);
     }
 
         .toggle.mini {
-            font-size: clamp(10px, 1.8vw, 18px);
+            font-size: clamp(1px, 1.5vw, 18px);
         }
 
-        /* 移动端禁用悬停效果 */
         .toggle:hover {
             transform: none;
         }
+
+    .end-content {
+        font-size: clamp(1px, 5vw, 24px);
+        margin-bottom: 0px;
+    }
 }
