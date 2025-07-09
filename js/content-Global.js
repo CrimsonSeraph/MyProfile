@@ -25,29 +25,77 @@ const CONTENT_DATA = {
     },
 
     "SocAcct": {
-        title: "社交账号🌐",
+        title: "平台账号🌐",
         content: `
             <h2>社交平台</h2>
+            <ul>
+                <li>微信=> 暂不公开</li>
+                <li>QQ=> 暂不公开</li>
+                <li>Bilibili=> <a href="https://b23.tv/5SCQPvO" target="_blank" rel="noopener noreferrer">【浪天幽影的个人空间-哔哩哔哩】</a></li>
+            </ul>
+
+            <h2>特殊平台</h2>
+            <ul>
+                <li>邮箱=> 暂不公开</li>
+                <li>X=> <a href="https://x.com/CrimSeraph_QwQ?s=09" target="_blank" rel="noopener noreferrer">𝒞𝓇𝒾𝓂𝓈𝑜𝓃𝒮𝑒𝓇𝒶𝓅𝒽✟升天✟</a></li>
+                <li>YouTube=> 暂不公开</li>
+                <li>Telegram=> 暂不公开</li>
+                <li>GitHub=> <a href="https://github.com/CrimsonSeraph" target="_blank" rel="noopener noreferrer">CrimsonSeraph</a></li>
+            </ul>
+
+            <h2>游戏账号</h2>
+            <ul>
+                <li>Steam=> <a href="https://steamcommunity.com/profiles/76561199405053454" target="_blank" rel="noopener noreferrer">CrimSeraph</a>
+                好友代码:1444787726
+                </li>
+                <li>三角洲行动=> 浪天幽影</li>
+                <li>BlueArchive(国际服)=> BlueArchive(好友代码:BFVMRLLR)</li>
+                <li>Minecraft(基岩版)=> 暂不公开</li>
+            </ul>
+
+            <h2>其他(不常用)</h2>
+            <ul>
+                <li>百度贴吧ID=> 3238434787</li>
+                <li>酷狗ID=> 1397662599</li>
+            </il>
         `,
     },
 
     "CtSch": {
         title: "目前安排📝",
         content: `
-            <h2>当前学习计划</h2>
-            <ol>
-                <li>C++ 像素游戏开发（SDL2）</li>
-            </ol>
+            <h2>当前计划</h2>
+            <ul>
+                <li>完善个人网页</li>
+                <li>玄幻魔法卡牌类小游戏</li>
+            </ul>
+
+            <h2>未来计划</h2>
+            <ul>
+                <li>游戏上传Steam</li>
+                <li>3D魔法开放世界冒险游戏</li>
+            </ul>
+
         `,
     },
 
     "projects": {
         title: "个人项目🗂️",
         content: `
-            <h2>项目一览</h2>
-            <p>正在进行：</p>
+            <h2>正在进行</h2>
             <ul>
-                <li>像素游戏开发</li>
+                <li>我的个人网站=><a href="https://github.com/CrimsonSeraph/MyProfile.git" target="_blank" rel="noopener noreferrer">MyProflie</a></li>
+                <li>《术道轮回 Cycle of Sorcery》(不公开项目)</li>
+            </ul>
+
+            <h2>未开始</h2>
+            <ul>
+                <li>暂未命名项目</li>
+            </ul>
+
+            <h2>已经完成</h2>
+            <ul>
+                <li>暂无</li>
             </ul>
         `,
     },

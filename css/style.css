@@ -56,6 +56,10 @@ html {
     white-space: nowrap; /* 禁止换行 */
 }
 
+ul {
+    padding:1vw;
+}
+
 /* ====================== 标题体系 ====================== */
 h1 {
     font-size: clamp(2rem, 6vw, 3rem); /* 响应式字体大小（最小值2rem，理想值6vw，最大值3rem） */
@@ -73,7 +77,6 @@ h3 {
 /* 段落样式 */
 p {
     font-size: clamp(1rem, 2.5vw, 1.125rem); /* 响应式字体大小 */
-    margin-bottom: 1.2em; /* 底部外边距 */
     max-width: 65ch; /* 最大字符宽度（优化可读性） */
 }
 
@@ -310,7 +313,7 @@ body:not(.bg-loaded) {
 /* 毛玻璃效果面板 */
 .glass-panel {
     background: var(--card-bg-color);
-    backdrop-filter: blur(10px); /* 背景模糊 */
+    backdrop-filter: blur(1px); /* 背景模糊 */
     border-radius: 12px; /* 圆角 */
     border: 1px solid var(--card-border-color);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 多层阴影 */
