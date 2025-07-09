@@ -1,5 +1,5 @@
 // ÆµÂÊ
-const HEART_RATE = 10.0;
+const HEART_RATE = 5;
 
 // ²¨·ù
 let AMPLITUDE;

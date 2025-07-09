@@ -12,7 +12,7 @@
 .ecg-container {
     position: relative; /* 作为子元素的定位基准 */
     width: 100%; /* 撑满父容器宽度 */
-    height: 75%; /* 占父容器50%高度 */
+    height: 60%; /* 占父容器50%高度 */
     background: var(--card-bg-color); /* 使用主题卡片背景色 */
     border-radius: 8px; /* 圆角效果 */
     overflow: hidden; /* 隐藏超出部分 */
@@ -50,7 +50,7 @@ canvas {
 /* ========== 中心显示的文本样式 ========== */
 .ecg-top {
     position: absolute; /* 覆盖在心电图上方 */
-    top: 40%; /* 垂直居中偏上位置 */
+    top: 35%; /* 垂直居中偏上位置 */
     left: 50%;
     transform: translate(-50%, -50%); /* 精确居中 */
     font-size: clamp(1.5rem, 4vw, 5rem); /* 响应式字体：最小1.5rem，按视口缩放，最大4rem */
@@ -107,7 +107,7 @@ canvas {
     }
 
     .ecg-top {
-        font-size: clamp(12px, 3vw, 3.5rem);
+        font-size: clamp(12px, 4vw, 3.5rem);
         top: 35%;
     }
 }
