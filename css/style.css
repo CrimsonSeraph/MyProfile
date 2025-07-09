@@ -215,7 +215,7 @@ body:not(.bg-loaded) {
 
 /* ------ 基础信息区 ------ */
 .info {
-    padding: 20px;
+    padding: 2vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* 内容均匀分布 */
