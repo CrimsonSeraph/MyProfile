@@ -6,7 +6,7 @@ let AMPLITUDE;
 
 function setAmplitude() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    AMPLITUDE = isMobile ? 0.1 : 0.5;
+    AMPLITUDE = isMobile ? 0.2 : 0.5;
 }
 
 setAmplitude();
