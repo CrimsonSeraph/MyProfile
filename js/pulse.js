@@ -2,7 +2,15 @@
 const HEART_RATE = 10.0;
 
 // ²¨·ù
-const AMPLITUDE = 0.5;
+let AMPLITUDE;
+
+function setAmplitude() {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    AMPLITUDE = isMobile ? 0.1 : 0.5;
+}
+
+setAmplitude();
+console.log(AMPLITUDE);
 
 // ÔëÉùË®Æ½
 const NOISE_LEVEL = 0;
