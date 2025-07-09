@@ -40,8 +40,8 @@ const CONTENT_DATA = {
                 好友代码:1444787726
                 </li>
                 <li>三角洲行动=> 浪天幽影</li>
-                <li>BlueArchive(国际服)=> BlueArchive(好友代码:BFVMRLLR)</li>
-                <li>Minecraft(基岩版)=> 暂不公开</li>
+                <li>BlueArchive(国际服)=> CrimsonSeraph(好友代码:BFVMRLLR)</li>
+                <li>Minecraft(基岩版/XBox账号)=> 暂不公开</li>
             </ul>
 
             <h2>其他(不常用)</h2>
