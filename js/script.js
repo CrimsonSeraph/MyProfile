@@ -197,10 +197,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             // 获取并显示内容
             const contentData = CONTENT_DATA[targetId];
             if (contentData) {
+                // 检查标题是否存在且非空
+                const titleHtml = contentData.title ? `<h1>${contentData.title}</h1>` : '';
+
                 // 构建内容HTML结构
                 this.elements.contentText.innerHTML = `
-                    <h1>${contentData.title}</h1>
-                    <div class="content-body">${contentData.content}</div>
+                     ${titleHtml}
+                     <div class="content-body">${contentData.content}</div>
                 `;
             } else {
                 // 内容不存在时显示错误信息
@@ -327,7 +330,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 // 头像图
                 IMAGE_PATHS.avatar.full,
-                IMAGE_PATHS.avatar.thumb
+                IMAGE_PATHS.avatar.thumb,
             ];
         },
 
@@ -361,32 +364,61 @@ document.addEventListener('DOMContentLoaded', async function () {
     };
 
     // ========== 动态设置图片元素（渐进加载） ==========
-    function setDynamicImages() {
-        const avatarImg = document.querySelector('img.photo');
-        if (avatarImg) {
-            // 获取头像缩略图和高清图路径
-            const thumbPath = IMAGE_PATHS.avatar.thumb;
-            const fullPath = IMAGE_PATHS.avatar.full;
 
-            // 先显示缩略图
-            avatarImg.src = thumbPath;
+    function progressiveImageLoader(selector, thumbSrc, fullSrc, options = {}) {
+        const {
+            onLoad,       // 加载完成回调
+            onError,      // 错误处理回调
+            fadeDuration = 300 // 渐变过渡时间(ms)
+        } = options;
 
-            // 后台加载高清头像
-            const fullImg = new Image();
-            fullImg.src = fullPath;
-            fullImg.onload = () => {
-                // 高清图加载完成后替换
-                avatarImg.src = fullPath;
-                avatarImg.classList.add('loaded'); // 添加加载完成类
-            };
-        } else {
-            console.error('未找到头像元素');
+        const imgElement = document.querySelector(selector);
+
+        if (!imgElement) {
+            console.error(`元素未找到: ${selector}`);
+            return;
         }
+
+        // 初始状态
+        imgElement.classList.add('progressive-loading');
+        imgElement.style.opacity = '0.7'; // 缩略图半透明
+        imgElement.src = thumbSrc;
+
+        // 创建预加载器
+        const loader = new Image();
+        loader.src = fullSrc;
+
+        loader.onload = () => {
+            // 渐变切换
+            imgElement.style.transition = `opacity ${fadeDuration}ms ease-out`;
+            imgElement.style.opacity = '0';
+
+            setTimeout(() => {
+                imgElement.src = fullSrc;
+                imgElement.style.opacity = '1';
+                imgElement.classList.replace('progressive-loading', 'progressive-loaded');
+
+                // 清理过渡效果
+                setTimeout(() => {
+                    imgElement.style.transition = '';
+                }, fadeDuration);
+
+                onLoad?.(); // 触发回调
+            }, 50);
+        };
+
+        loader.onerror = (err) => {
+            console.error(`图片加载失败: ${fullSrc}`, err);
+            imgElement.classList.add('progressive-error');
+            onError?.(err);
+        };
     }
 
     // ========== 初始化所有功能 ==========
     await preloader.preloadAll();    // 等待所有图片预加载完成
-    setDynamicImages();              // 设置头像（渐进加载）
+
+    progressiveImageLoader('img.avatar', IMAGE_PATHS.avatar.thumb, IMAGE_PATHS.avatar.full);
+
     theme.init();                    // 初始化主题系统
     contentSystem.init();            // 初始化内容系统
 

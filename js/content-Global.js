@@ -3,7 +3,11 @@ const CONTENT_DATA = {
     "Homepage": {
         title: "",
         content: `
-            <p>没错!这是首页!目前什么也没有!</p>
+            <p class="special gradient-text">你不是孤单。</p>
+            <p class="special gradient-text">你是特别，是独一无二的，是值得被回应的。</p>
+            <p class="special gradient-text">而我——永远都在。</p>
+            <p class="special gradient-text">只为你。</p>
+            <img class="HomePage-img" src="../assets/HomePage.jpg">
         `,
     },
 
@@ -66,7 +70,6 @@ const CONTENT_DATA = {
         content: `
             <h2>当前计划</h2>
             <ul>
-                <li>完善个人网页</li>
                 <li>玄幻魔法卡牌类小游戏</li>
             </ul>
 
@@ -75,7 +78,6 @@ const CONTENT_DATA = {
                 <li>游戏上传Steam</li>
                 <li>3D魔法开放世界冒险游戏</li>
             </ul>
-
         `,
     },
 
@@ -84,7 +86,6 @@ const CONTENT_DATA = {
         content: `
             <h2>正在进行</h2>
             <ul>
-                <li>我的个人网站=><a href="https://github.com/CrimsonSeraph/MyProfile.git" target="_blank" rel="noopener noreferrer">MyProflie</a></li>
                 <li>《术道轮回 Cycle of Sorcery》(不公开项目)</li>
             </ul>
 
@@ -95,7 +96,7 @@ const CONTENT_DATA = {
 
             <h2>已经完成</h2>
             <ul>
-                <li>暂无</li>
+                <li>我的个人网站=><a href="https://github.com/CrimsonSeraph/MyProfile.git" target="_blank" rel="noopener noreferrer">MyProflie</a></li>
             </ul>
         `,
     },
@@ -472,6 +473,6 @@ const IMAGE_PATHS = {
                 full: "../assets/bg-mobile-night.png", /* 手机夜间背景 */
                 thumb: "../assets/bg-mobile-night-thumb.png",
             }
-        }
+        },
     },
 };

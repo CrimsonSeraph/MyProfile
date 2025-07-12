@@ -2,6 +2,7 @@
 :root {
     --bg-preview: var(--bg-image-thumb); /* 背景预览图 */
     --bg-full: var(--bg-image-full); /* 高清背景图 */
+    --info-bg: url("../assets/info.jpg");
     /* 默认白天模式变量 */
     --text-color: rgba(0, 40, 100, 1); /* 主要文字颜色-深海蓝（高饱和度） */
     --text-border-color: rgba(255, 215, 0, 0.8); /* 文字边框色-黄金轮廓（强化边缘） */
@@ -52,12 +53,11 @@ body {
 
 /* 响应式字体设置 */
 html {
-    font-size: calc(0.75rem + 0.5vw); /* 根据视口宽度动态调整字体大小 */
     white-space: nowrap; /* 禁止换行 */
 }
 
 ul {
-    padding:1vw;
+    padding: 1vw;
 }
 
 /* ====================== 标题体系 ====================== */
@@ -79,6 +79,11 @@ p {
     font-size: clamp(1rem, 2.5vw, 1.125rem); /* 响应式字体大小 */
     max-width: 65ch; /* 最大字符宽度（优化可读性） */
 }
+
+    p.special {
+        text-shadow: none;
+        font-size: clamp(2rem, 6vw, 3rem); /* 响应式字体大小（最小值2rem，理想值6vw，最大值3rem） */
+    }
 
 h1, h2, h3, p {
     text-shadow: -1px 0 var(--text-border-color), 0 -1px var(--text-border-color), 1px 0 var(--text-border-color), 0 1px var(--text-border-color);
@@ -218,10 +223,7 @@ body:not(.bg-loaded) {
 
 /* ------ 基础信息区 ------ */
 .info {
-    padding: 2vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* 内容均匀分布 */
+    padding: 1vw;
 }
 
 /* ------ 导航栏 ------ */
@@ -359,6 +361,12 @@ body:not(.bg-loaded) {
     display: block;
 }
 
+/* 首页图片 */
+.HomePage-img {
+    max-width: 100%; /* 图片最大宽度为父元素的100% */
+    height: auto; /* 高度自动，保持宽高比 */
+}
+
 /* 渐进加载图片 */
 img.progressive {
     opacity: 0; /* 初始透明 */
@@ -427,6 +435,10 @@ img.progressive {
 
 /* 移动端样式 (宽度≤768px) */
 @media (max-width: 768px) {
+    p, p.special {
+        font-size: clamp(1.0px, 5.0vw, 3.0rem);
+    }
+
     html, body {
         overflow: hidden;
         touch-action: none;
