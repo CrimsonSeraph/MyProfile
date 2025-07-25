@@ -57,6 +57,15 @@ const CONTENT_DATA = {
         `,
     },
 
+    "2025/7/26": {
+        title: "",
+        content: `
+           <p>回来休息一段时间了</p>
+           <p>哎，什么时候开始呢？</p>
+           <p>明天吧</p>
+        `,
+    },
+
     "PerEval": {
         title: "简介☕",
         content: `
@@ -98,7 +107,7 @@ const CONTENT_DATA = {
                 <li>Steam=> <a href="https://steamcommunity.com/profiles/76561199405053454" target="_blank" rel="noopener noreferrer">CrimSeraph</a>
                 好友代码:1444787726
                 </li>
-                <li>三角洲行动=> 浪天幽影 编号:189652777038031494217</li>
+                <li>三角洲行动=> CrimSeraph 编号:189652777038031494217</li>
                 <li>BlueArchive(国际服)=> CrimsonSeraph(好友代码:BFVMRLLR)</li>
                 <li>Minecraft(基岩版/XBox账号)=> 暂不公开</li>
             </ul>
