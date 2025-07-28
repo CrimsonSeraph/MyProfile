@@ -37,23 +37,23 @@ document.addEventListener('DOMContentLoaded', async function () {
                         ? IMAGE_PATHS.backgrounds.pc.night.full     // PC端暗黑高清图
                         : IMAGE_PATHS.backgrounds.pc.day.full);     // PC端日间高清图
 
-                // 1. 清除旧的高清背景（先设置为none）
+                // 清除旧的高清背景（先设置为none）
                 document.documentElement.style.setProperty('--bg-full', 'none');
 
-                // 2. 设置预览图背景
+                // 设置预览图背景
                 const newPreview = `url(${previewPath})`;
                 // 只有当预览图路径改变时才更新（避免不必要的重绘）
                 if (document.documentElement.style.getPropertyValue('--bg-preview') !== newPreview) {
                     document.documentElement.style.setProperty('--bg-preview', newPreview);
                 }
 
-                // 3. 清除旧的高清图加载器（如果存在）
+                // 清除旧的高清图加载器（如果存在）
                 if (this._highResImg) {
                     this._highResImg.onload = null;
                     this._highResImg.onerror = null;
                 }
 
-                // 4. 渐进式加载高清背景图
+                // 渐进式加载高清背景图
                 const highResImg = new Image();
                 this._highResImg = highResImg; // 存储引用以便后续清理
                 highResImg.src = fullPath; // 开始加载高清图
@@ -415,13 +415,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     // ========== 初始化所有功能 ==========
-    await preloader.preloadAll();    // 等待所有图片预加载完成
-
-    progressiveImageLoader('img.avatar', IMAGE_PATHS.avatar.thumb, IMAGE_PATHS.avatar.full);
-
     theme.init();                    // 初始化主题系统
     contentSystem.init();            // 初始化内容系统
+    preloader.preloadAll().catch(console.error);
 
-    // 添加资源加载完成标志（可用于触发动画等）
-    document.body.classList.add('resources-loaded');
+    progressiveImageLoader('img.avatar', IMAGE_PATHS.avatar.thumb, IMAGE_PATHS.avatar.full);
 });

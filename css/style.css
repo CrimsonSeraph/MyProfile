@@ -216,7 +216,7 @@ body:not(.bg-loaded) {
     height: 100%;
     aspect-ratio: 1/1; /* 保持正方形 */
     background: linear-gradient(45deg, #FF9A9E 0%, #FAD0C4 50%, #A18CD1 100%); /* 渐变背景 */
-    border: 3px solid var(--card-border-color);
+    border: 1px solid var(--card-border-color);
     border-radius: 12px; /* 圆角 */
     overflow: hidden; /* 隐藏溢出内容 */
 }
