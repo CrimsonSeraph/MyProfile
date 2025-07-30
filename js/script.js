@@ -158,7 +158,15 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
 
             // 可展开菜单处理
-            const expandBtn = document.querySelector('.expand-btn');
+            const expandBtns = document.querySelectorAll('.expand-btn');
+            expandBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const menu = e.currentTarget.closest('.expandable-menu');
+                    menu.classList.toggle('expanded');
+                });
+            });
+
             if (expandBtn) {
                 expandBtn.addEventListener('click', (e) => {
                     e.stopPropagation(); // 阻止事件冒泡
