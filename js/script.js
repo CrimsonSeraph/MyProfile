@@ -151,10 +151,19 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
 
             // 默认显示首页内容
-            if (CONTENT_DATA && CONTENT_DATA.Homepage) {
+            let defaultContent = null;
+            for (const source of this.contentSources) {
+                if (source && source.Homepage) {
+                    defaultContent = source.Homepage;
+                    break;
+                }
+            }
+
+            if (defaultContent) {
                 this.switchContent('Homepage');
             } else {
-                console.error("首页内容数据未定义");
+                console.error("首页内容在所有数据源中都未定义");
+                this.elements.contentText.innerHTML = `<p class="error">首页内容未找到</p>`;
             }
 
             // 可展开菜单处理
@@ -192,6 +201,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
         },
 
+        // 定义数据源
+        contentSources: [CONTENT_DATA, CONTENT_DATA_DAILY],
+
         // 切换内容显示
         switchContent: function (targetId) {
             // 更新按钮激活状态
@@ -203,15 +215,23 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
 
             // 获取并显示内容
-            const contentData = CONTENT_DATA[targetId];
-            if (contentData) {
+            let foundContent = null;
+            // 依次检查数据源
+            for (const source of this.contentSources) {
+                if (source && source[targetId]) {
+                    foundContent = source[targetId];
+                    break;
+                }
+            }
+
+            if (foundContent) {
                 // 检查标题是否存在且非空
-                const titleHtml = contentData.title ? `<h1>${contentData.title}</h1>` : '';
+                const titleHtml = foundContent.title ? `<h1>${foundContent.title}</h1>` : '';
 
                 // 构建内容HTML结构
                 this.elements.contentText.innerHTML = `
                      ${titleHtml}
-                     <div class="content-body">${contentData.content}</div>
+                     <div class="content-body">${foundContent.content}</div>
                 `;
             } else {
                 // 内容不存在时显示错误信息
