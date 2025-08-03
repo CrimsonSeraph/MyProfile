@@ -424,8 +424,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // ========== 初始化所有功能 ==========
     theme.init();                    // 初始化主题系统
-    contentSystem.init();            // 初始化内容系统
-    preloader.preloadAll().catch(console.error);
-
     progressiveImageLoader('img.avatar', IMAGE_PATHS.avatar.thumb, IMAGE_PATHS.avatar.full);
+    contentSystem.init();            // 初始化内容系统
+
+    preloader.preloadAll().catch(console.error);
 });
