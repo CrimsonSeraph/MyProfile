@@ -176,17 +176,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                 });
             });
 
-            if (expandBtn) {
-                expandBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // 阻止事件冒泡
-                    const menu = e.currentTarget.closest('.expandable-menu');
-                    menu.classList.toggle('expanded'); // 切换展开状态
-                });
-            }
-
             // 子菜单按钮点击后收起菜单
             document.querySelectorAll('.sub-buttons .toggle').forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // 关键修复：阻止事件冒泡
                     btn.closest('.expandable-menu').classList.remove('expanded');
                 });
             });
@@ -445,7 +438,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // ========== 初始化所有功能 ==========
     theme.init();                    // 初始化主题系统
     progressiveImageLoader('img.avatar', IMAGE_PATHS.avatar.thumb, IMAGE_PATHS.avatar.full);
+    preloader.preloadAll().catch(console.error);
     contentSystem.init();            // 初始化内容系统
 
-    preloader.preloadAll().catch(console.error);
 });
